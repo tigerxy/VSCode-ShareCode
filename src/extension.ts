@@ -72,42 +72,69 @@ export function activate(context: vscode.ExtensionContext) {
 
             function uploadToPastebin(filename: string, codeFormat: string, code: string, authToken: string = null): void {
                 vscode.window.showQuickPick(['public','unlisted','private'], {placeHolder: 'Choose privacy'}).then((privacy:string) => {
-                    let data = {
-                        api_dev_key: "c3f4c23b158eb018d5c7930417964ea8",
-                        api_option: 'paste',
-                        api_paste_private: 1,
-                        api_paste_name: fileName,
-                        api_paste_code: code
-                    }
-                    
-                    switch (privacy) {
-                        case 'private':
-                            data.api_paste_private = 2;
-                            break;
-                        case 'unlisted':
-                            data.api_paste_private = 1;
-                            break;
-                        default:
-                            data.api_paste_private = 0;
-                            break;
-                    }
-                    
-                    let possibleFormats = ['4cs', '6502acme', '6502kickass', '6502tasm', 'abap', 'actionscript', 'actionscript3', 'ada', 'aimms', 'algol68', 'apache', 'applescript', 'apt_sources', 'arm', 'asm', 'asp', 'asymptote', 'autoconf', 'autohotkey', 'autoit', 'avisynth', 'awk', 'bascomavr', 'bash', 'basic4gl', 'dos', 'bibtex', 'blitzbasic', 'b3d', 'bmx', 'bnf', 'boo', 'bf', 'c', 'c_winapi', 'c_mac', 'cil', 'csharp', 'cpp', 'cpp-winapi', 'cpp-qt', 'c_loadrunner', 'caddcl', 'cadlisp', 'cfdg', 'chaiscript', 'chapel', 'clojure', 'klonec', 'klonecpp', 'cmake', 'cobol', 'coffeescript', 'cfm', 'css', 'cuesheet', 'd', 'dart', 'dcl', 'dcpu16', 'dcs', 'delphi', 'oxygene', 'diff', 'div', 'dot', 'e', 'ezt', 'ecmascript', 'eiffel', 'email', 'epc', 'erlang', 'fsharp', 'falcon', 'fo', 'f1', 'fortran', 'freebasic', 'freeswitch', 'gambas', 'gml', 'gdb', 'genero', 'genie', 'gettext', 'go', 'groovy', 'gwbasic', 'haskell', 'haxe', 'hicest', 'hq9plus', 'html4strict', 'html5', 'icon', 'idl', 'ini', 'inno', 'intercal', 'io', 'ispfpanel', 'j', 'java', 'java5', 'javascript', 'jcl', 'jquery', 'json', 'julia', 'kixtart', 'latex', 'ldif', 'lb', 'lsl2', 'lisp', 'llvm', 'locobasic', 'logtalk', 'lolcode', 'lotusformulas', 'lotusscript', 'lscript', 'lua', 'm68k', 'magiksf', 'make', 'mapbasic', 'matlab', 'mirc', 'mmix', 'modula2', 'modula3', '68000devpac', 'mpasm', 'mxml', 'mysql', 'nagios', 'netrexx', 'newlisp', 'nginx', 'nimrod', 'text', 'nsis', 'oberon2', 'objeck', 'objc', 'ocaml-brief', 'ocaml', 'octave', 'pf', 'glsl', 'oobas', 'oracle11', 'oracle8', 'oz', 'parasail', 'parigp', 'pascal', 'pawn', 'pcre', 'per', 'perl', 'perl6', 'php', 'php-brief', 'pic16', 'pike', 'pixelbender', 'plsql', 'postgresql', 'postscript', 'povray', 'powershell', 'powerbuilder', 'proftpd', 'progress', 'prolog', 'properties', 'providex', 'puppet', 'purebasic', 'pycon', 'python', 'pys60', 'q', 'qbasic', 'qml', 'rsplus', 'racket', 'rails', 'rbs', 'rebol', 'reg', 'rexx', 'robots', 'rpmspec', 'ruby', 'gnuplot', 'rust', 'sas', 'scala', 'scheme', 'scilab', 'scl', 'sdlbasic', 'smalltalk', 'smarty', 'spark', 'sparql', 'sqf', 'sql', 'standardml', 'stonescript', 'sclang', 'swift', 'systemverilog', 'tsql', 'tcl', 'teraterm', 'thinbasic', 'typoscript', 'unicon', 'uscript', 'ups', 'urbi', 'vala', 'vbnet', 'vbscript', 'vedit', 'verilog', 'vhdl', 'vim', 'visualprolog', 'vb', 'visualfoxpro', 'whitespace', 'whois', 'winbatch', 'xbasic', 'xml', 'xorg_conf', 'xpp', 'yaml', 'z80', 'zxbasic'];
-                    
-                    if(possibleFormats.lastIndexOf(codeFormat) >= 0) {
-                        data['api_paste_format'] = codeFormat
-                    }
-                    
-                    if (authToken != null)
-                        data['api_user_key'] = authToken
+                    vscode.window.showQuickPick(['Never','10 Minutes','1 Hour','1 Day','1 Week','2 Weeks','1 Month'], {placeHolder: 'Choose expire date'}).then((expire:string) => {
+                        let data = {
+                            api_dev_key: "c3f4c23b158eb018d5c7930417964ea8",
+                            api_option: 'paste',
+                            api_paste_private: 1,
+                            api_paste_expire_date: 'N',
+                            api_paste_name: fileName,
+                            api_paste_code: code
+                        }
+                        
+                        switch (expire) {
+                            case '10 Minutes':
+                                data.api_paste_expire_date = '10M';
+                                break;
+                            case '1 Hour':
+                                data.api_paste_expire_date = '1H';
+                                break;
+                            case '1 Day':
+                                data.api_paste_expire_date = '1D';
+                                break;
+                            case '1 Week':
+                                data.api_paste_expire_date = '1W';
+                                break;
+                            case '2 Weeks':
+                                data.api_paste_expire_date = '2W';
+                                break;
+                            case '1 Month':
+                                data.api_paste_expire_date = '1M';
+                                break;
+                            default:
+                                data.api_paste_expire_date = 'N';
+                                break;
+                        }
+                        
+                        switch (privacy) {
+                            case 'private':
+                                data.api_paste_private = 2;
+                                break;
+                            case 'unlisted':
+                                data.api_paste_private = 1;
+                                break;
+                            default:
+                                data.api_paste_private = 0;
+                                break;
+                        }
+                        
+                        let possibleFormats = ['4cs', '6502acme', '6502kickass', '6502tasm', 'abap', 'actionscript', 'actionscript3', 'ada', 'aimms', 'algol68', 'apache', 'applescript', 'apt_sources', 'arm', 'asm', 'asp', 'asymptote', 'autoconf', 'autohotkey', 'autoit', 'avisynth', 'awk', 'bascomavr', 'bash', 'basic4gl', 'dos', 'bibtex', 'blitzbasic', 'b3d', 'bmx', 'bnf', 'boo', 'bf', 'c', 'c_winapi', 'c_mac', 'cil', 'csharp', 'cpp', 'cpp-winapi', 'cpp-qt', 'c_loadrunner', 'caddcl', 'cadlisp', 'cfdg', 'chaiscript', 'chapel', 'clojure', 'klonec', 'klonecpp', 'cmake', 'cobol', 'coffeescript', 'cfm', 'css', 'cuesheet', 'd', 'dart', 'dcl', 'dcpu16', 'dcs', 'delphi', 'oxygene', 'diff', 'div', 'dot', 'e', 'ezt', 'ecmascript', 'eiffel', 'email', 'epc', 'erlang', 'fsharp', 'falcon', 'fo', 'f1', 'fortran', 'freebasic', 'freeswitch', 'gambas', 'gml', 'gdb', 'genero', 'genie', 'gettext', 'go', 'groovy', 'gwbasic', 'haskell', 'haxe', 'hicest', 'hq9plus', 'html4strict', 'html5', 'icon', 'idl', 'ini', 'inno', 'intercal', 'io', 'ispfpanel', 'j', 'java', 'java5', 'javascript', 'jcl', 'jquery', 'json', 'julia', 'kixtart', 'latex', 'ldif', 'lb', 'lsl2', 'lisp', 'llvm', 'locobasic', 'logtalk', 'lolcode', 'lotusformulas', 'lotusscript', 'lscript', 'lua', 'm68k', 'magiksf', 'make', 'mapbasic', 'matlab', 'mirc', 'mmix', 'modula2', 'modula3', '68000devpac', 'mpasm', 'mxml', 'mysql', 'nagios', 'netrexx', 'newlisp', 'nginx', 'nimrod', 'text', 'nsis', 'oberon2', 'objeck', 'objc', 'ocaml-brief', 'ocaml', 'octave', 'pf', 'glsl', 'oobas', 'oracle11', 'oracle8', 'oz', 'parasail', 'parigp', 'pascal', 'pawn', 'pcre', 'per', 'perl', 'perl6', 'php', 'php-brief', 'pic16', 'pike', 'pixelbender', 'plsql', 'postgresql', 'postscript', 'povray', 'powershell', 'powerbuilder', 'proftpd', 'progress', 'prolog', 'properties', 'providex', 'puppet', 'purebasic', 'pycon', 'python', 'pys60', 'q', 'qbasic', 'qml', 'rsplus', 'racket', 'rails', 'rbs', 'rebol', 'reg', 'rexx', 'robots', 'rpmspec', 'ruby', 'gnuplot', 'rust', 'sas', 'scala', 'scheme', 'scilab', 'scl', 'sdlbasic', 'smalltalk', 'smarty', 'spark', 'sparql', 'sqf', 'sql', 'standardml', 'stonescript', 'sclang', 'swift', 'systemverilog', 'tsql', 'tcl', 'teraterm', 'thinbasic', 'typoscript', 'unicon', 'uscript', 'ups', 'urbi', 'vala', 'vbnet', 'vbscript', 'vedit', 'verilog', 'vhdl', 'vim', 'visualprolog', 'vb', 'visualfoxpro', 'whitespace', 'whois', 'winbatch', 'xbasic', 'xml', 'xorg_conf', 'xpp', 'yaml', 'z80', 'zxbasic'];
+                        
+                        if(possibleFormats.lastIndexOf(codeFormat) >= 0) {
+                            data['api_paste_format'] = codeFormat
+                        }
+                        
+                        if (authToken != null)
+                            data['api_user_key'] = authToken
 
-                    request.post({ 
-                        url: 'https://pastebin.com/api/api_post.php', 
-                        formData: data 
-                    }, (err, httpResponse, body) => {
-                        vscode.window.showInformationMessage("Your File is published here: " + body);
-                        opn(body);
-                    });
+                        request.post({ 
+                            url: 'https://pastebin.com/api/api_post.php', 
+                            formData: data 
+                        }, (err, httpResponse, body) => {
+                            vscode.window.showInformationMessage("Your File is published here: " + body);
+                            opn(body);
+                        });
+                    })
                 })
             }
 
