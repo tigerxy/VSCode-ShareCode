@@ -2,7 +2,7 @@
   "name": "sharecode",
   "displayName": "Share Code",
   "description": "Store your Code online for easy sharing. Run Command 'Share Code' and upload it to Pastebin or GitHub Gist.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "RolandGreim",
   "author": {
     "name": "Roland Greim - http://www.rolandgreim.de/"
