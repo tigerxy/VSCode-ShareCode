@@ -1,0 +1,50 @@
+{
+  "name": "sharecode",
+  "displayName": "Share Code",
+  "description": "Store your Code online for easy sharing. Run Command 'Share Code' and upload it to Pastebin or GitHub Gist.",
+  "version": "0.0.1",
+  "publisher": "RolandGreim",
+  "author": {
+    "name": "Roland Greim - http://www.rolandgreim.de/"
+  },
+  "engines": {
+    "vscode": "^0.10.10"
+  },
+  "icon": "images/sharecode.svg",
+  "galleryBanner": {
+    "color": "#008080",
+    "theme": "light"
+  },
+  "categories": [
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tigerxy/VSCode-ShareCode"
+  },
+  "activationEvents": [
+    "onCommand:extension.shareCode"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.shareCode",
+        "title": "Share Code"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "devDependencies": {
+    "typescript": "^1.8.5",
+    "vscode": "^0.11.0"
+  },
+  "dependencies": {
+    "opn": "^4.0.1",
+    "request": "^2.69.0"
+  }
+}
