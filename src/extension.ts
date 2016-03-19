@@ -30,7 +30,8 @@ export function activate(context: vscode.ExtensionContext) {
                     uploadToPastebin(fileName, codeFormat, code);
                 } else if (selection == 'Pastebin') {
                     vscode.window.showInputBox({ 
-                        placeHolder: "Pastebin Username" 
+                        placeHolder: "Pastebin Username",
+                        value: vscode.workspace.getConfiguration('shareCode.pastebin').get('username').toString()
                     }).then((userName: string) => {
                         vscode.window.showInputBox({ 
                             placeHolder: "Pastebin Password", 
@@ -41,7 +42,7 @@ export function activate(context: vscode.ExtensionContext) {
                                 api_user_name: userName,
                                 api_user_password: userPass
                             }
-
+                            
                             request.post({ 
                                 url: 'https://pastebin.com/api/api_login.php', 
                                 formData: data 
@@ -58,7 +59,8 @@ export function activate(context: vscode.ExtensionContext) {
                     uploadToGist(fileName, code);
                 } else if (selection == 'GitHub Gist') {
                     vscode.window.showInputBox({ 
-                        placeHolder: "GitHub Username"
+                        placeHolder: "GitHub Username",
+                        value: vscode.workspace.getConfiguration('shareCode.gist').get('username').toString()
                     }).then((userName: string) => {
                         vscode.window.showInputBox({ 
                             placeHolder: "GitHub Password", 

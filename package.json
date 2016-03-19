@@ -2,7 +2,7 @@
   "name": "sharecode",
   "displayName": "Share Code",
   "description": "Store your Code online for easy sharing. Run Command 'Share Code' and upload it to Pastebin or GitHub Gist.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "RolandGreim",
   "author": {
     "name": "Roland Greim - http://www.rolandgreim.de/"
@@ -32,7 +32,23 @@
         "command": "extension.shareCode",
         "title": "Share Code"
       }
-    ]
+    ],
+    "configuration": {
+        "type": "string",
+        "title": "Share Code configuration",
+        "properties": {
+            "shareCode.pastebin.username": {
+                "type": "string",
+                "default": "",
+                "description": "Cached pastebin username."
+            },
+            "shareCode.gist.username": {
+                "type": "string",
+                "default": "",
+                "description": "Cached gist username."
+            }
+        }
+    }
   },
   "scripts": {
     "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
