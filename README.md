@@ -1,5 +1,7 @@
 ## Installation
 
+[![Join the chat at https://gitter.im/tigerxy/VSCode-ShareCode](https://badges.gitter.im/tigerxy/VSCode-ShareCode.svg)](https://gitter.im/tigerxy/VSCode-ShareCode?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Press `Ctrl+P` and type in `ext install Share Code`
  
 ## Usage
