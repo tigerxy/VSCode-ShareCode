@@ -14,5 +14,19 @@ HowTo upload a file to Github Gist:
 
 ![alt tag](https://raw.githubusercontent.com/tigerxy/VSCode-ShareCode/master/images/gistAym.gif)
 
+## Settings
+You can configure your Username. Go to `File > Preferences > User Settings` and add these Lines:
+
+```
+{
+    "shareCode.pastebin.username":"YourUserName",
+    "shareCode.gist.username":"YourUserName"
+}
+```
+
+## Change Log
+### Version 0.1.0
+* Basic functions to share on Pastebin or GitHub Gist
+
 ## License
 GPLv3
