@@ -30,7 +30,7 @@
       }
     ],
     "configuration": {
-        "type": "string",
+        "type": "object",
         "title": "Share Code configuration",
         "properties": {
             "shareCode.pastebin.username": {
