@@ -40,6 +40,7 @@ export function activate(context: vscode.ExtensionContext)
                             "password": "GitHub Password",
                             "description":"Description of your file"
                         },
+                        "publishedMessage": "Your File is published here: ",
                         "fileNotFound": "No file for sharing found. Please open one in edit mode.",
                         "public": "public",
                         "unlisted": "unlisted",
@@ -71,6 +72,7 @@ export function activate(context: vscode.ExtensionContext)
                             "password": "GitHub Passwort",
                             "description":"Beschreibung der Datei"
                         },
+                        "publishedMessage": "Deine Datei wurde hier veröffentlicht: ",
                         "fileNotFound": "Keine Detei zum teilen gefunden. Bitte öffnen Sie eine im Bearbeitungsmodus.",
                         "public": "öffentlich",
                         "unlisted": "nicht gelistet",

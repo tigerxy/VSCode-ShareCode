@@ -72,16 +72,16 @@ export module pastebin
             return [
                 {
                     id: privacySelection.public,
-                    description: i18next.t("public"),
-                    label: ""
+                    label: i18next.t("public"),
+                    description: ""
                 }, {
                     id: privacySelection.unlisted,
-                    description: i18next.t("unlisted"),
-                    label: ""
+                    label: i18next.t("unlisted"),
+                    description: ""
                 }, {
                     id: privacySelection.private,
-                    description: i18next.t("private"),
-                    label: ""
+                    label: i18next.t("private"),
+                    description: ""
                 }
             ]
         }
@@ -91,39 +91,39 @@ export module pastebin
             return [
                 {
                     id: expireDateSelection.never,
-                    description: i18next.t("never"),
+                    label: i18next.t("never"),
                     value: "N",
-                    label: ""
+                    description: ""
                 }, {
                     id: expireDateSelection.tenMinutes,
-                    description: i18next.t("minute", { count: 10 }),
+                    label: i18next.t("minute", { count: 10 }),
                     value: "10M",
-                    label: ""
+                    description: ""
                 }, {
                     id: expireDateSelection.oneHour,
-                    description: i18next.t("hour", { count: 1 }),
+                    label: i18next.t("hour", { count: 1 }),
                     value: "1H",
-                    label: ""
+                    description: ""
                 }, {
                     id: expireDateSelection.oneDay,
-                    description: i18next.t("day", { count: 1 }),
+                    label: i18next.t("day", { count: 1 }),
                     value: "1D",
-                    label: ""
+                    description: ""
                 }, {
                     id: expireDateSelection.oneWeek,
-                    description: i18next.t("week", { count: 1 }),
+                    label: i18next.t("week", { count: 1 }),
                     value: "1W",
-                    label: ""
+                    description: ""
                 }, {
                     id: expireDateSelection.twoWeeks,
-                    description: i18next.t("week", { count: 2 }),
+                    label: i18next.t("week", { count: 2 }),
                     value: "2W",
-                    label: ""
+                    description: ""
                 }, {
                     id: expireDateSelection.oneMonth,
-                    description: i18next.t("month", { count: 1 }),
+                    label: i18next.t("month", { count: 1 }),
                     value: "1M",
-                    label: ""
+                    description: ""
                 }
             ]
         }

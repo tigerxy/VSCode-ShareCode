@@ -37,37 +37,38 @@ export module sharecode
             vscode.window.showQuickPick(this.getServiceQuickPickItems()).then(
                 (selection: ServiceQuickPick) =>
                 {
-                    switch (selection.id)
-                    {
-                        case serviceSelection.githubGist:
-                            var gb = new github.github(this.fileName, this.code)
-                            gb.start().then((url: string) =>
-                            {
-                                this.showUrlAndOpen(url)
-                            })
-                            break;
-                        case serviceSelection.githubGistAym:
-                            var gb = new github.github(this.fileName, this.code)
-                            gb.start(true).then((url: string) =>
-                            {
-                                this.showUrlAndOpen(url)
-                            })
-                            break;
-                        case serviceSelection.pastebin:
-                            var pb = new pastebin.pastebin(this.fileName, this.code, this.codeFormat)
-                            pb.start().then((url: any) =>
-                            {
-                                this.showUrlAndOpen(url)
-                            })
-                            break;
-                        case serviceSelection.pastebinAym:
-                            var pb = new pastebin.pastebin(this.fileName, this.code, this.codeFormat)
-                            pb.start(true).then((url: string) =>
-                            {
-                                this.showUrlAndOpen(url)
-                            })
-                            break;
-                    }
+                    if (selection != undefined)
+                        switch (selection.id)
+                        {
+                            case serviceSelection.githubGist:
+                                var gb = new github.github(this.fileName, this.code)
+                                gb.start().then((url: string) =>
+                                {
+                                    this.showUrlAndOpen(url)
+                                })
+                                break;
+                            case serviceSelection.githubGistAym:
+                                var gb = new github.github(this.fileName, this.code)
+                                gb.start(true).then((url: string) =>
+                                {
+                                    this.showUrlAndOpen(url)
+                                })
+                                break;
+                            case serviceSelection.pastebin:
+                                var pb = new pastebin.pastebin(this.fileName, this.code, this.codeFormat)
+                                pb.start().then((url: any) =>
+                                {
+                                    this.showUrlAndOpen(url)
+                                })
+                                break;
+                            case serviceSelection.pastebinAym:
+                                var pb = new pastebin.pastebin(this.fileName, this.code, this.codeFormat)
+                                pb.start(true).then((url: string) =>
+                                {
+                                    this.showUrlAndOpen(url)
+                                })
+                                break;
+                        }
                 }
             )
         }
@@ -77,27 +78,27 @@ export module sharecode
             return [
                 {
                     id: serviceSelection.pastebinAym,
-                    description: i18next.t("pastebin.serviceAnym"),
-                    label: ""
+                    label: i18next.t("pastebin.serviceAnym"),
+                    description: ""
                 }, {
                     id: serviceSelection.githubGistAym,
-                    description: i18next.t("github.serviceAnym"),
-                    label: ""
+                    label: i18next.t("github.serviceAnym"),
+                    description: ""
                 }, {
                     id: serviceSelection.pastebin,
-                    description: i18next.t("pastebin.service"),
-                    label: ""
+                    label: i18next.t("pastebin.service"),
+                    description: ""
                 }, {
                     id: serviceSelection.githubGist,
-                    description: i18next.t("github.service"),
-                    label: ""
+                    label: i18next.t("github.service"),
+                    description: ""
                 }
             ]
         }
 
         private showUrlAndOpen(url: string)
         {
-            vscode.window.showInformationMessage("Your File is published here: " + url);
+            vscode.window.showInformationMessage(i18next.t("publishedMessage") + url);
             opn(url);
         }
     }
