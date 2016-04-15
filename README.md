@@ -25,6 +25,9 @@ You can configure your Username. Go to `File > Preferences > User Settings` and 
 ```
 
 ## Change Log
+### Version 0.2.0
+* Extension in german translated
+
 ### Version 0.1.0
 * Basic functions to share on Pastebin or GitHub Gist
 
