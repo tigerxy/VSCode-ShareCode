@@ -11,8 +11,8 @@
 			],
 			"stopOnEntry": false,
 			"sourceMaps": true,
-			"outDir": "${workspaceRoot}/out",
-			"preLaunchTask": "npm"
+			"outDir": "${workspaceRoot}/out"
+			//"preLaunchTask": "npm"
 		}
 	]
 }

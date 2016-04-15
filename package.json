@@ -1,6 +1,6 @@
 {
   "name": "sharecode",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "publisher": "RolandGreim",
   "engines": {
     "vscode": "^0.10.10"
@@ -12,10 +12,10 @@
     "Other"
   ],
   "keywords": [
-      "GitHub",
-      "Pastebin",
-      "Upload",
-      "Share"
+    "GitHub",
+    "Pastebin",
+    "Upload",
+    "Share"
   ],
   "galleryBanner": {
     "color": "#008080",
@@ -30,26 +30,27 @@
       }
     ],
     "configuration": {
-        "type": "object",
-        "title": "Share Code configuration",
-        "properties": {
-            "shareCode.pastebin.username": {
-                "type": "string",
-                "default": "",
-                "description": "Cached pastebin username."
-            },
-            "shareCode.gist.username": {
-                "type": "string",
-                "default": "",
-                "description": "Cached gist username."
-            }
+      "type": "object",
+      "title": "Share Code configuration",
+      "properties": {
+        "shareCode.pastebin.username": {
+          "type": "string",
+          "default": "",
+          "description": "Cached pastebin username."
+        },
+        "shareCode.gist.username": {
+          "type": "string",
+          "default": "",
+          "description": "Cached gist username."
         }
+      }
     }
   },
   "activationEvents": [
     "onCommand:extension.shareCode"
   ],
   "dependencies": {
+    "i18next": "^2.5.1",
     "opn": "^4.0.1",
     "request": "^2.69.0"
   },
