@@ -51,7 +51,6 @@ export module github
                     }).then((userPass: string) =>
                     {
                         this.userPass = userPass
-                        //uploadToGist(fileName, code, userName, userPass);
                         resolve()
                     })
                 })
