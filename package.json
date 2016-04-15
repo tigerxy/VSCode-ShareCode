@@ -1,6 +1,6 @@
 {
   "name": "sharecode",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "RolandGreim",
   "engines": {
     "vscode": "^0.10.10"
