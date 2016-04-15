@@ -40,6 +40,7 @@ export function activate(context: vscode.ExtensionContext)
                             "password": "GitHub Password",
                             "description":"Description of your file"
                         },
+                        "fileNotFound": "No file for sharing found. Please open one in edit mode.",
                         "public": "public",
                         "unlisted": "unlisted",
                         "private": "private",
@@ -70,6 +71,7 @@ export function activate(context: vscode.ExtensionContext)
                             "password": "GitHub Passwort",
                             "description":"Beschreibung der Datei"
                         },
+                        "fileNotFound": "Keine Detei zum teilen gefunden. Bitte öffnen Sie eine im Bearbeitungsmodus.",
                         "public": "öffentlich",
                         "unlisted": "nicht gelistet",
                         "private": "privat",
@@ -94,7 +96,7 @@ export function activate(context: vscode.ExtensionContext)
             sc.start()
         } else
         {
-            vscode.window.showErrorMessage('No file for sharing found. Please open one in edit mode.')
+            vscode.window.showErrorMessage(i18next.t("fileNotFound"))
         }
     });
 
