@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext)
     let disposable = vscode.commands.registerCommand('extension.shareCode', () =>
     {
         i18next.init({
-            "debug": true,
+            "debug": false,
             "lng": vscode.env.language,
             "resources": {
                 "en-US": {
