@@ -1,0 +1,10 @@
+
+tmp/
+tmp
+tmp/*
+.vscode/*
+src/*
+test/*
+typings/*
+.gitignore
+settings.json

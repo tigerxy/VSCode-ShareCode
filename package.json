@@ -1,6 +1,6 @@
 {
   "name": "sharecode",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "publisher": "RolandGreim",
   "engines": {
     "vscode": "^0.10.10"
@@ -14,6 +14,7 @@
   "keywords": [
     "GitHub",
     "Pastebin",
+    "Gist",
     "Upload",
     "Share"
   ],
@@ -23,10 +24,28 @@
   },
   "main": "./out/src/extension",
   "contributes": {
+    "menus": {
+      "editor/title": [
+        {
+          "command": "extension.shareCode.share",
+          "title": "Share Code"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "extension.shareCode.share",
+          "title": "Share Code"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "extension.shareCode",
-        "title": "Share Code"
+        "command": "extension.shareCode.share",
+        "title": "Share Code: share"
+      },
+      {
+        "command": "extension.shareCode.open",
+        "title": "Share Code: open"
       }
     ],
     "configuration": {
@@ -42,17 +61,28 @@
           "type": "string",
           "default": "",
           "description": "Cached gist username."
+        },
+        "shareCode.gist.authtoken": {
+          "type": "string",
+          "default": null,
+          "description": "GitHub Authentication Token."
         }
       }
     }
   },
   "activationEvents": [
-    "onCommand:extension.shareCode"
+    "onCommand:extension.shareCode.open",
+    "onCommand:extension.shareCode.share"
   ],
   "dependencies": {
+    "github": "^0.2.4",
     "i18next": "^2.5.1",
+    "moment": "^2.15.1",
     "opn": "^4.0.1",
-    "request": "^2.69.0"
+    "request": "^2.69.0",
+    "underscore": "^1.8.3",
+    "vscode": "^0.11.18",
+    "xml2js": "^0.4.16"
   },
   "devDependencies": {
     "typescript": "^1.8.5",
