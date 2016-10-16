@@ -66,8 +66,8 @@ export module github
             {
                 this.auth().then(() =>
                 {
-                    this.client.gists.getFromUser({
-                        user: this.configuration.get("user")
+                    this.client.gists.getForUser({
+                        owner: this.configuration.get('username')
                     }, (err, res) =>
                         {
                             let gists = res.map(gist =>
@@ -162,7 +162,7 @@ export module github
             {
                 vscode.window.showInputBox({
                     placeHolder: i18next.t("github.username"),
-                    value: vscode.workspace.getConfiguration('shareCode.gist').get('username').toString()
+                    value: this.configuration.get('username')
                 }).then((userName: string) =>
                 {
                     vscode.window.showInputBox({
@@ -175,7 +175,7 @@ export module github
                             this.showErrorMessage(10000)
                         } else
                         {
-                            this.configuration.set("user", userName)
+                            this.configuration.set('username', userName)
                             this.client.authenticate({
                                 type: "basic",
                                 username: userName,

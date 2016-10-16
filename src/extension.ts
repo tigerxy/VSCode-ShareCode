@@ -34,7 +34,7 @@ export function activate(context: vscode.ExtensionContext)
                         "password": "GitHub Password",
                         "description": "Description of your file",
                         "errors": {
-                            "tokenExist": "Authtoken already exist. Please delete it on Github"
+                            "tokenExist": "Authtoken already exist. Please delete it on Github: https://github.com/settings/tokens"
                         }
                     },
                     "errors": {
@@ -74,7 +74,7 @@ export function activate(context: vscode.ExtensionContext)
                         "password": "GitHub Passwort",
                         "description": "Beschreibung der Datei",
                         "errors": {
-                            "tokenExist": "Anmelde-Token wurde bereits erstellt. Bitte diesen auf Github löschen."
+                            "tokenExist": "Anmelde-Token wurde bereits erstellt. Bitte diesen auf Github löschen: https://github.com/settings/tokens"
                         }
                     },
                     "errors": {

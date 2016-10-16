@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as moment from 'moment';
-import {pastebin} from './pastebin';
-import {github} from './github';
+import { pastebin } from './pastebin';
+import { github } from './github';
 let i18next = require('i18next');
 let opn = require('opn');
 let fs = require('fs');
@@ -122,68 +122,31 @@ export module ShareCodeClasses
 
     export class Configuration
     {
-        //TODO: Cache Config Vars
-        private confFile
         private wspConf: vscode.WorkspaceConfiguration
         private scope
-        private configCache
+        private cache: Object = {}
 
         constructor(scope: string)
         {
-            this.confFile = vscode.extensions.getExtension("RolandGreim.sharecode").extensionPath + '/settings.json'
             this.scope = scope
-            this.wspConf = vscode.workspace.getConfiguration("sharecode." + scope)
-            try
-            {
-                fs.accessSync(this.confFile)
-                let file_content = fs.readFileSync(this.confFile, { flag: 'r+' })
-                this.configCache = JSON.parse(file_content)
-            } catch (error)
-            {
-                this.configCache = {}
-            }
+            this.wspConf = vscode.workspace.getConfiguration("shareCode." + scope)
         }
-        get(key: string)
+        get(key: "username" | "authtoken"): string | null
         {
-            if (this.wspConf.has(key))
+            if (!this.cache.hasOwnProperty(key))
             {
-                let value = this.wspConf.get(key, null)
-                if (value != null)
-                {
-                    // console.log(key + ":" + value + " read from workspacesettings")
-                    return value
-                }
+                this.cache[key] = this.wspConf.get(key, null)
             }
-            try
-            {
-                //let file_content = fs.readFileSync(this.confFile, { flag: 'r+' })
-                //let content = JSON.parse(file_content)
-                // console.log(key + ":" + content[key] + " read from configfile")
-                return this.configCache[this.scope + '.' + key]
-            } catch (error)
-            {
-                // console.log(this.confFile + " can not be read")
-                return null
-            }
+            console.log("read ", key, ":", this.cache[key])
+            return this.cache[key]
         }
-        set(key: string, value: string | Object)
+        set(key: "username" | "authtoken", value: string): Thenable<void>
         {
-            this.configCache[this.scope + '.' + key] = value
-            try
-            {
-                fs.accessSync(this.confFile)
-                let file_content = fs.readFileSync(this.confFile, { flag: 'r+' })
-                this.configCache = _.extend(JSON.parse(file_content), this.configCache)
-            } catch (error)
-            {
-
-            }
-            let content = JSON.stringify(this.configCache, null, 2)
-            fs.writeFile(this.confFile, content, { flag: 'w+' }, function (err)
-            {
-            })
+            this.cache[key] = value
+            return this.wspConf.update(key, value, true)
         }
     }
+
     export class tmpFile
     {
         private tmpPath

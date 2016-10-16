@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
-import {ShareCodeClasses} from './sharecode';
-let request = require("request");
+import { ShareCodeClasses } from './sharecode';
+let rp = require('request-promise');
+let request = require("request"); //old
 let i18next = require('i18next');
 let parseString = require('xml2js').parseString;
 
@@ -73,55 +74,62 @@ export module pastebin
         {
             return new Promise(resolve =>
             {
-                this.auth().then(() =>
-                {
-                    request.post({
-                        url: 'https://pastebin.com/api/api_post.php',
-                        formData: this.generateListFormData()
-                    }, (err, httpResponse, xml) =>
-                        {
-                            try
-                            {
-                                parseString('<root>\n' + xml + '</root>\n', (err, result) =>
-                                {
-                                    let pastes = result.root.paste.map(paste =>
-                                    {
-                                        let desc = paste.paste_title[0]
-                                        if (desc == "")
-                                        {
-                                            desc = i18next.t("errors.noDescription")
-                                        }
-                                        return {
-                                            label: desc,
-                                            description: this.dateTimeHandler.getDateUnix(paste.paste_date[0]),
-                                            pasteKey: paste.paste_key[0]
-                                        }
-                                    })
-                                    vscode.window.showQuickPick(pastes).then((selected: any) =>
-                                    {
-                                        if (selected != undefined)
-                                        {
-                                            request.post({
-                                                url: 'https://pastebin.com/api/api_raw.php',
-                                                formData: this.generateGetFormData(selected.pasteKey)
-                                            }, (err, httpResponse, raw) =>
-                                                {
-                                                    this.fileHandler.saveFile(selected.pasteKey, selected.label, raw)
-                                                    vscode.workspace.openTextDocument(this.fileHandler.getFilePath(selected.pasteKey, selected.label))
-                                                        .then((doc: vscode.TextDocument) => {
-                                                            vscode.window.showTextDocument(doc)
-                                                            resolve()
-                                                        });
-                                                })
-                                        }
-                                    })
-                                });
-                            } catch (error)
-                            {
-                                //TODO: Errorhandling
-                            }
+                this.auth()
+                    .then(() =>
+                    {
+                        return rp.post({
+                            url: 'https://pastebin.com/api/api_post.php',
+                            formData: this.generateListFormData()
                         })
-                })
+                    })
+                    .then(xml =>
+                    {
+                        try
+                        {
+                            parseString('<root>\n' + xml + '</root>\n', (err, result) =>
+                            {
+                                let pastes = result.root.paste.map(paste =>
+                                {
+                                    let desc = paste.paste_title[0]
+                                    if (desc == "")
+                                    {
+                                        desc = i18next.t("errors.noDescription")
+                                    }
+                                    return {
+                                        label: desc,
+                                        description: this.dateTimeHandler.getDateUnix(paste.paste_date[0]),
+                                        pasteKey: paste.paste_key[0]
+                                    }
+                                })
+                                vscode.window.showQuickPick(pastes).then((selected: any) =>
+                                {
+                                    if (selected != undefined)
+                                    {
+                                        request.post({
+                                            url: 'https://pastebin.com/api/api_raw.php',
+                                            formData: this.generateGetFormData(selected.pasteKey)
+                                        }, (err, httpResponse, raw) =>
+                                            {
+                                                this.fileHandler.saveFile(selected.pasteKey, selected.label, raw)
+                                                vscode.workspace.openTextDocument(this.fileHandler.getFilePath(selected.pasteKey, selected.label))
+                                                    .then((doc: vscode.TextDocument) =>
+                                                    {
+                                                        vscode.window.showTextDocument(doc)
+                                                        resolve()
+                                                    });
+                                            })
+                                    }
+                                })
+                            });
+                        } catch (error)
+                        {
+                            //TODO: Errorhandling
+                        }
+                    })
+                    .catch(err =>
+                    {
+                        console.log(err)
+                    })
             })
         }
 
@@ -186,51 +194,74 @@ export module pastebin
             ]
         }
 
-        private auth(): Promise<any>
+        private auth(): Promise<void>
         {
-            return new Promise((resolve) =>
+            let userNameG, userPass;
+            if (this.configuration.get("authtoken") == null)
             {
-                if (this.configuration.get("authtoken") == null)
-                {
-                    return vscode.window.showInputBox({
+                return Promise.resolve(
+                    vscode.window.showInputBox({
                         placeHolder: i18next.t("pastebin.username"),
                         value: this.configuration.get("username")
-                    }).then((userName: string) =>
-                    {
-                        return vscode.window.showInputBox({
-                            placeHolder: i18next.t("pastebin.password"),
-                            password: true
-                        }).then((userPass: string) =>
-                        {
-                            let data = {
-                                api_dev_key: this.devKey,
-                                api_user_name: userName,
-                                api_user_password: userPass
-                            }
-
-                            request.post({
-                                url: 'https://pastebin.com/api/api_login.php',
-                                formData: data
-                            }, (err, httpResponse, body: string) =>
-                                {
-                                    if (body.startsWith("Bad API request"))
-                                    {
-                                        vscode.window.showErrorMessage(body.split('Bad API request, ').pop())
-                                    } else
-                                    {
-                                        this.configuration.set('authtoken', body)
-                                        this.configuration.set('username', userName)
-                                        resolve()
-                                    }
-                                });
-                        })
                     })
-                }
-                else
-                {
-                    resolve()
-                }
-            })
+                        .then((userName: string) =>
+                        {
+                            userNameG = userName
+                            return this.configuration.set('username', userName)
+                        })
+                        .then(() =>
+                        {
+                            return vscode.window.showInputBox({
+                                placeHolder: i18next.t("pastebin.password"),
+                                password: true
+                            })
+                        })
+                        .then((userPass: string) =>
+                        {
+                            return rp.post({
+                                url: 'https://pastebin.com/api/api_login.php',
+                                formData: {
+                                    api_dev_key: this.devKey,
+                                    api_user_name: userNameG,
+                                    api_user_password: userPass
+                                }
+                            })
+                            // , (err, httpResponse, body: string) =>
+                            //     {
+                            //         if (body.startsWith("Bad API request"))
+                            //         {
+                            //             return Promise.reject(body.split('Bad API request, ').pop())
+                            //         } else
+                            //         {
+                            //             return this.configuration.set('authtoken', body)
+                            //         }
+                            //     });
+                        })
+                        .then(body =>
+                        {
+                            if (body.startsWith("Bad API request"))
+                            {
+                                return Promise.reject(body.split('Bad API request, ').pop())
+                            } else
+                            {
+                                return this.configuration.set('authtoken', body)
+                            }
+                        })
+                        .then(text =>
+                        {
+                            console.log(this.configuration.get('authtoken'))
+                            return null
+                        })
+                        // .catch(err =>
+                        // {
+                        //     vscode.window.showErrorMessage(err)
+                        // })
+                )
+            }
+            else
+            {
+                return Promise.resolve()
+            }
         }
 
         private setCodeFormat(codeFormat: string): string
