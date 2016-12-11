@@ -95,7 +95,7 @@ export module gitlab
                                 description: this.dateTimeHandler.getDate(element.updatedAt)
                             })
                         });
-                        vscode.window.showQuickPick<snippetQuickPick>(list, { placeholder: i18next.t("gitlab.select.snippet") })
+                        vscode.window.showQuickPick<snippetQuickPick>(list, { placeHolder: i18next.t("gitlab.select.snippet") })
                             .then((selected: snippetQuickPick) => 
                             {
                                 if (selected != undefined)
@@ -130,9 +130,9 @@ export module gitlab
                         let list: Array<projectQuickPick> = []
                         body.forEach(element =>
                         {
-                            list.push({ project: element, label: element.name, detail: element.namespace.name })
+                            list.push({ project: element, label: element.name, detail: element.namespace.name, description: "" })
                         });
-                        vscode.window.showQuickPick<projectQuickPick>(list, { placeholder: i18next.t("gitlab.select.project") })
+                        vscode.window.showQuickPick<projectQuickPick>(list, { placeHolder: i18next.t("gitlab.select.project") })
                             .then((item: projectQuickPick) => 
                             {
                                 if (item != undefined)

@@ -160,12 +160,12 @@ export class ProjectOwner {
 export class Snippets {
     'id': number;
     'title': string;
-    'fileName': string;
+    'file_name': string;
     'author': SnippetsAuthor;
     'updatedAt': string;
     'createdAt': string;
     'expiresAt': string;
-    'webUrl': string;
+    'web_url': string;
 }
 
 export class SnippetsAuthor {
@@ -269,7 +269,7 @@ export class GroupsApi {
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
             if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
+                objA[<string>key] = objB[key];
             }
         }
         return <T1&T2>objA;
@@ -449,7 +449,7 @@ export class MergeRequestsApi {
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
             if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
+                objA[<string>key] = objB[key];
             }
         }
         return <T1&T2>objA;
@@ -847,7 +847,7 @@ export class ProjectApi {
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
             if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
+                objA[<string>key] = objB[key];
             }
         }
         return <T1&T2>objA;
@@ -1083,7 +1083,7 @@ export class SnippetsApi {
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
             if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
+                objA[<string>key] = objB[key];
             }
         }
         return <T1&T2>objA;
@@ -1097,7 +1097,7 @@ export class SnippetsApi {
      * @param code The content of a snippet
      * @param visibilityLevel The snippet&#39;s visibility
      */
-    public createSnippet (id: string, title: string, fileName: string, code: string, visibilityLevel: number) : Promise<{ response: http.ClientResponse; body: Snippets;  }> {
+    public createSnippet (id: number, title: string, fileName: string, code: string, visibilityLevel: number) : Promise<{ response: http.ClientResponse; body: Snippets;  }> {
         const localVarPath = this.basePath + '/projects/{id}/snippets'
             .replace('{' + 'id' + '}', String(id));
         let queryParameters: any = {};
@@ -1190,7 +1190,7 @@ export class SnippetsApi {
      * @param id The ID of a project
      * @param snippetId The ID of a project&#39;s snippet
      */
-    public deleteSnippet (id: string, snippetId: string) : Promise<{ response: http.ClientResponse; body: Snippets;  }> {
+    public deleteSnippet (id: number, snippetId: number) : Promise<{ response: http.ClientResponse; body: Snippets;  }> {
         const localVarPath = this.basePath + '/projects/{id}/snippets/{snippet_id}'
             .replace('{' + 'id' + '}', String(id))
             .replace('{' + 'snippet_id' + '}', String(snippetId));
@@ -1253,7 +1253,7 @@ export class SnippetsApi {
      * @param id The ID of a project
      * @param snippetId The ID of a project&#39;s snippet
      */
-    public getSnippet (id: string, snippetId: string) : Promise<{ response: http.ClientResponse; body: Snippets;  }> {
+    public getSnippet (id: number, snippetId: number) : Promise<{ response: http.ClientResponse; body: Snippets;  }> {
         const localVarPath = this.basePath + '/projects/{id}/snippets/{snippet_id}'
             .replace('{' + 'id' + '}', String(id))
             .replace('{' + 'snippet_id' + '}', String(snippetId));
@@ -1316,7 +1316,7 @@ export class SnippetsApi {
      * @param id The ID of a project
      * @param snippetId The ID of a project&#39;s snippet
      */
-    public getSnippetContent (id: string, snippetId: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public getSnippetContent (id: number, snippetId: number) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/projects/{id}/snippets/{snippet_id}/raw'
             .replace('{' + 'id' + '}', String(id))
             .replace('{' + 'snippet_id' + '}', String(snippetId));
@@ -1378,7 +1378,7 @@ export class SnippetsApi {
      * Lists all snippets of a project.
      * @param id The ID of a project
      */
-    public listSnippets (id: string) : Promise<{ response: http.ClientResponse; body: Array<Snippets>;  }> {
+    public listSnippets (id: number) : Promise<{ response: http.ClientResponse; body: Array<Snippets>;  }> {
         const localVarPath = this.basePath + '/projects/{id}/snippets'
             .replace('{' + 'id' + '}', String(id));
         let queryParameters: any = {};
@@ -1439,7 +1439,7 @@ export class SnippetsApi {
      * @param code The content of a snippet
      * @param visibilityLevel The snippet&#39;s visibility
      */
-    public updateSnippet (id: string, snippetId: string, title?: string, fileName?: string, code?: string, visibilityLevel?: number) : Promise<{ response: http.ClientResponse; body: Snippets;  }> {
+    public updateSnippet (id: number, snippetId: number, title?: string, fileName?: string, code?: string, visibilityLevel?: number) : Promise<{ response: http.ClientResponse; body: Snippets;  }> {
         const localVarPath = this.basePath + '/projects/{id}/snippets/{snippet_id}'
             .replace('{' + 'id' + '}', String(id))
             .replace('{' + 'snippet_id' + '}', String(snippetId));
@@ -1552,7 +1552,7 @@ export class TagsApi {
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
             if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
+                objA[<string>key] = objB[key];
             }
         }
         return <T1&T2>objA;
