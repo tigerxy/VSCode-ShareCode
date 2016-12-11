@@ -1,3 +1,7 @@
+### Version 0.4.0
+* GitLab support
+* Changelog moved to sperated file
+
 ### Version 0.3.0
 * Menu items added
 * Share selected text

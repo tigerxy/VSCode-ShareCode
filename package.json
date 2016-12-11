@@ -1,18 +1,19 @@
 {
   "name": "sharecode",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "publisher": "RolandGreim",
   "engines": {
     "vscode": "^1.6.0"
   },
   "license": "GPL-3.0",
   "displayName": "Share Code",
-  "description": "Share your Code on Pastebin or GitHub Gist.",
+  "description": "Share your Code on GitHub Gist, GitLab or Pastebin.",
   "categories": [
     "Other"
   ],
   "keywords": [
     "GitHub",
+    "GitLab",
     "Pastebin",
     "Gist",
     "Upload",
@@ -71,6 +72,16 @@
           "type": "string",
           "default": null,
           "description": "GitHub Authentication Token."
+        },
+        "shareCode.gitlab.baseurl": {
+          "type": "string",
+          "default": "https://gitlab.com/",
+          "description": "Baseurl of GitLab server."
+        },
+        "shareCode.gitlab.authtoken": {
+          "type": "string",
+          "default": null,
+          "description": "GitLab Authentication Token."
         }
       }
     }
@@ -87,15 +98,15 @@
     "request": "^2.69.0",
     "request-promise": "^4.1.1",
     "underscore": "^1.8.3",
-    "vscode": "^1.0.0",
+    "vscode": "^1.0.3",
     "xml2js": "^0.4.16"
   },
   "devDependencies": {
-    "typescript": "^2.0.3",
-    "vscode": "^1.0.0",
-    "mocha": "^2.3.3",
+    "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
-    "@types/mocha": "^2.2.32"
+    "mocha": "^2.3.3",
+    "typescript": "^2.1.4",
+    "vscode": "^1.0.3"
   },
   "scripts": {
     "vscode:prepublish": "tsc -p ./",

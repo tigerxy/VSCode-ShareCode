@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as moment from 'moment';
 import { pastebin } from './pastebin';
 import { github } from './github';
+import { gitlab } from './gitlab/service';
 let i18next = require('i18next');
 let opn = require('opn');
 let fs = require('fs');
@@ -80,6 +81,11 @@ export module ShareCode
                     description: "",
                     anonym: false,
                     service: new github.github
+                }, {
+                    label: i18next.t("gitlab.service"),
+                    description: "",
+                    anonym: false,
+                    service: new gitlab.gitlab
                 }
             ]
             if (withAnonym)
@@ -131,7 +137,7 @@ export module ShareCodeClasses
             this.scope = scope
             this.wspConf = vscode.workspace.getConfiguration("shareCode." + scope)
         }
-        get(key: "username" | "authtoken"): string | null
+        get(key: "username" | "authtoken" | "baseurl"): string | null
         {
             if (!this.cache.hasOwnProperty(key))
             {
@@ -140,7 +146,7 @@ export module ShareCodeClasses
             console.log("read ", key, ":", this.cache[key])
             return this.cache[key]
         }
-        set(key: "username" | "authtoken", value: string): Thenable<void>
+        set(key: "username" | "authtoken" | "baseurl", value: string): Thenable<void>
         {
             this.cache[key] = value
             return this.wspConf.update(key, value, true)

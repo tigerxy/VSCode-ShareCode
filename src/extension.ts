@@ -2,7 +2,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import {ShareCode, ShareCodeClasses} from './sharecode';
+import { ShareCode, ShareCodeClasses } from './sharecode';
 let i18next = require('i18next');
 
 // this method is called when your extension is activated
@@ -37,15 +37,31 @@ export function activate(context: vscode.ExtensionContext)
                             "tokenExist": "Authtoken already exist. Please delete it on Github: https://github.com/settings/tokens"
                         }
                     },
+                    "gitlab": {
+                        "service": "GitLab",
+                        "public": "The snippet can be accessed without any authentication",
+                        "internal": "The snippet is visible for any logged in user",
+                        "private": "The snippet is visible only the snippet creator",
+                        "select": {
+                            "project": "select project",
+                            "snippet": "select snippet"
+                        },
+                        "token": {
+                            "generate": "Go to this {{url}}profile/personal_access_tokens page and generate a access token and insert it.",
+                            "baseUrl": "Insert url of your gitlab server."
+                        }
+                    },
                     "errors": {
+                        "tokenWrongOrExpired": "Token is wrong or expired. Please renew it.",
                         "blankUsernameOrPassword": "Username or password can not be blank.",
                         "unexpectedErrorCode": "An unexpected error occurred. Please contact the developer. Code: {{code}}",
-                            "noDescription": "No description"
+                        "noDescription": "No description"
                     },
                     "publishedMessage": "Your File is published here: ",
                     "fileNotFound": "No file for sharing found. Please open one in edit mode.",
                     "public": "public",
                     "unlisted": "unlisted",
+                    "internal": "internal",
                     "private": "private",
                     "never": "never",
                     "minute": "{{count}} minute",
@@ -77,7 +93,22 @@ export function activate(context: vscode.ExtensionContext)
                             "tokenExist": "Anmelde-Token wurde bereits erstellt. Bitte diesen auf Github löschen: https://github.com/settings/tokens"
                         }
                     },
+                    "gitlab": {
+                        "service": "GitLab",
+                        "public": "The snippet can be accessed without any authentication",
+                        "internal": "The snippet is visible for any logged in user",
+                        "private": "The snippet is visible only the snippet creator",
+                        "select": {
+                            "project": "Projekt auswählen",
+                            "snippet": "Snippet auswählen"
+                        },
+                        "token": {
+                            "generate": "Go to this {{url}}profile/personal_access_tokens page and generate a access token and insert it.",
+                            "baseUrl": "Insert url of your gitlab server."
+                        }
+                    },
                     "errors": {
+                        "tokenWrongOrExpired": "Token ist falsch oder abgelaufen. Bitte neuen einstellen.",
                         "blankUsernameOrPassword": "Benutzername oder Passwort dürfen nicht leer sein.",
                         "unexpectedErrorCode": "Ein unerwarteter Fehler ist aufgetreten. Bitte kontaktieren sie den Entwickler. Code: {{code}}",
                         "noDescription": "Keine Beschreibung"
@@ -86,6 +117,7 @@ export function activate(context: vscode.ExtensionContext)
                     "fileNotFound": "Keine Detei zum teilen gefunden. Bitte öffnen Sie eine im Bearbeitungsmodus.",
                     "public": "öffentlich",
                     "unlisted": "nicht gelistet",
+                    "internal": "intern",
                     "private": "privat",
                     "never": "niemals",
                     "minute": "{{count}} Minute",
@@ -131,4 +163,4 @@ export function activate(context: vscode.ExtensionContext)
 
 // this method is called when your extension is deactivated
 export function deactivate()
-{}
+{ }
