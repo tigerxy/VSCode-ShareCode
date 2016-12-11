@@ -36,7 +36,9 @@ These settings are set automatically when you start the extension. You can also 
     "shareCode.pastebin.username": "...",
     "shareCode.pastebin.authtoken": "...",
     "shareCode.github.username": "...",
-    "shareCode.github.authtoken": "..."
+    "shareCode.github.authtoken": "...",
+    "shareCode.gitlab.baseurl": "...",
+    "shareCode.gitlab.authtoken": "..."
 }
 ```
 ## Reset Github token
