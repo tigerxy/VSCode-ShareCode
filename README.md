@@ -42,5 +42,11 @@ These settings are set automatically when you start the extension. You can also 
 ## Reset Github token
 Sometimes it is necessary to delete a token. Go to this [page](https://github.com/settings/tokens) and delete the token named `VSCode Share Code`.
 
+## Like?
+You can support my work :)
+
+[![](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?fid=4pqnqk&url=https%3A%2F%2Fgithub.com%2Ftigerxy%2FVSCode-ShareCode)
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XT52CWJMEDPZ2)
+
 ## License
 GPLv3
