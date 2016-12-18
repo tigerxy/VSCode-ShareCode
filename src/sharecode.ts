@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { pastebin } from './pastebin';
 import { github } from './github';
 import { gitlab } from './gitlab/service';
+import { zerobin } from './zerobin/service';
 let i18next = require('i18next');
 let opn = require('opn');
 let fs = require('fs');
@@ -86,6 +87,11 @@ export module ShareCode
                     description: "",
                     anonym: false,
                     service: new gitlab.gitlab
+                }, {
+                    label: i18next.t("zerobin.service"),
+                    description: "",
+                    anonym: false,
+                    service: new zerobin.zerobin
                 }
             ]
             if (withAnonym)

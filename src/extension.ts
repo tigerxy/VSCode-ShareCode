@@ -51,6 +51,9 @@ export function activate(context: vscode.ExtensionContext)
                             "baseUrl": "Insert url of your gitlab server."
                         }
                     },
+                    "zerobin": {
+                        "service": "ZeroBin"
+                    },
                     "errors": {
                         "tokenWrongOrExpired": "Token is wrong or expired. Please renew it.",
                         "blankUsernameOrPassword": "Username or password can not be blank.",
@@ -106,6 +109,9 @@ export function activate(context: vscode.ExtensionContext)
                             "generate": "Go to this {{url}}profile/personal_access_tokens page and generate a access token and insert it.",
                             "baseUrl": "Insert url of your gitlab server."
                         }
+                    },
+                    "zerobin": {
+                        "service": "ZeroBin"
                     },
                     "errors": {
                         "tokenWrongOrExpired": "Token ist falsch oder abgelaufen. Bitte neuen einstellen.",
