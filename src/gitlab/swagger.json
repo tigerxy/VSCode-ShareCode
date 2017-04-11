@@ -1138,7 +1138,7 @@
                     "name": "id",
                     "description": "The ID of a project",
                     "in": "path",
-                    "type": "integer",
+                    "type": "string",
                     "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
                     "required": true
                 }
@@ -1260,7 +1260,7 @@
                     "name": "id",
                     "description": "The ID of a project",
                     "in": "path",
-                    "type": "integer",
+                    "type": "string",
                     "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
                     "required": true
                 },
@@ -1268,7 +1268,7 @@
                     "name": "snippet_id",
                     "description": "The ID of a project's snippet",
                     "in": "path",
-                    "type": "integer",
+                    "type": "string",
                     "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
                     "required": true
                 }
@@ -1414,7 +1414,7 @@
                     "name": "id",
                     "description": "The ID of a project",
                     "in": "path",
-                    "type": "integer",
+                    "type": "string",
                     "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
                     "required": true
                 },
@@ -1422,7 +1422,7 @@
                     "name": "snippet_id",
                     "description": "The ID of a project's snippet",
                     "in": "path",
-                    "type": "integer",
+                    "type": "string",
                     "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
                     "required": true
                 }
