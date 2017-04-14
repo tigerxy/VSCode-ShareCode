@@ -101,7 +101,7 @@ export module ShareCode
             ]
             if (!withAnonym)
             {
-                services = _.filter(services, function (service) { return service.anonym })
+                services = _.filter(services, function (service) { return !service.anonym })
             }
             return _.sortBy(services, function (service) { return service.service.isNotConfigured() })
         }
