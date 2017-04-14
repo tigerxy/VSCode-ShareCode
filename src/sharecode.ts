@@ -86,29 +86,24 @@ export module ShareCode
                     description: "",
                     anonym: false,
                     service: new gitlab.gitlab
+                },
+                {
+                    label: i18next.t("pastebin.serviceAnym"),
+                    description: "",
+                    anonym: true,
+                    service: new pastebin.pastebin
+                }, {
+                    label: i18next.t("github.serviceAnym"),
+                    description: "",
+                    anonym: true,
+                    service: new github.github
                 }
             ]
-            if (withAnonym)
+            if (!withAnonym)
             {
-                let servicesAym = [
-                    {
-                        label: i18next.t("pastebin.serviceAnym"),
-                        description: "",
-                        anonym: true,
-                        service: new pastebin.pastebin
-                    }, {
-                        label: i18next.t("github.serviceAnym"),
-                        description: "",
-                        anonym: true,
-                        service: new github.github
-                    }
-                ]
-                return _.union(services, servicesAym)
+                services = _.filter(services, function (service) { return service.anonym })
             }
-            else
-            {
-                return services
-            }
+            return _.sortBy(services, function (service) { return service.service.isNotConfigured() })
         }
 
         private showUrlAndOpen(url: string)
@@ -124,7 +119,8 @@ export module ShareCodeClasses
     export interface Service
     {
         upload(file: file, anonym: Boolean): Promise<string>,
-        open(): Promise<any>
+        open(): Promise<any>,
+        isNotConfigured(): boolean
     }
 
     export class Configuration

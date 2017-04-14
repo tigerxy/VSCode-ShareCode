@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {ShareCodeClasses} from './sharecode';
+import { ShareCodeClasses } from './sharecode';
 let GitHubApi = require("github");
 let request = require("request");
 let i18next = require('i18next');
@@ -111,11 +111,16 @@ export module github
             })
         }
 
+        public isNotConfigured(): boolean
+        {
+            return this.configuration.get("authtoken") == null
+        }
+
         private auth(): Promise<string>
         {
             return new Promise((resolve) =>
             {
-                if (this.configuration.get("authtoken") == null)
+                if (this.isNotConfigured())
                 {
                     this.authPromt().then(() =>
                     {

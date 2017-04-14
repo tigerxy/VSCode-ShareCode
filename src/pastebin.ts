@@ -133,6 +133,11 @@ export module pastebin
             })
         }
 
+        public isNotConfigured(): boolean
+        {
+            return this.configuration.get("authtoken") == null
+        }
+
         private getPrivacyQuickPickItems(): Array<privacyQuickPick>
         {
             return [
@@ -197,7 +202,7 @@ export module pastebin
         private auth(): Promise<void>
         {
             let userNameG, userPass;
-            if (this.configuration.get("authtoken") == null)
+            if (this.isNotConfigured())
             {
                 return Promise.resolve(
                     vscode.window.showInputBox({

@@ -62,7 +62,7 @@ export module gitlab
                                             console.log(privacy.id)
                                             this.getSnippetsApi()
                                                 .createSnippet(project.id, desc, file.fileName, file.code, privacy.id)
-                                                .then(({ response, body}: { response: Object; body: api.Snippets; }) =>
+                                                .then(({ response, body }: { response: Object; body: api.Snippets; }) =>
                                                 {
                                                     resolve(body.web_url)
                                                 })
@@ -83,7 +83,7 @@ export module gitlab
             {
                 this.getSnippetsApi()
                     .listSnippets(project.id)
-                    .then(({response, body}: { response: Object; body: Array<api.Snippets>; }) =>
+                    .then(({ response, body }: { response: Object; body: Array<api.Snippets>; }) =>
                     {
                         let list: Array<snippetQuickPick> = []
                         body.forEach(element =>
@@ -102,7 +102,7 @@ export module gitlab
                                 {
                                     this.getSnippetsApi()
                                         .getSnippetContent(project.id, selected.snippet.id)
-                                        .then(({response, body}: { response: Object; body: string; }) =>
+                                        .then(({ response, body }: { response: Object; body: string; }) =>
                                         {
                                             this.fileHandler.saveFile(selected.snippet.id.toString(), selected.snippet.file_name, body)
                                             vscode.workspace.openTextDocument(this.fileHandler.getFilePath(selected.snippet.id.toString(), selected.snippet.file_name))
@@ -115,17 +115,23 @@ export module gitlab
                             })
                     })
             })
-            .catch(res => 
-            {
-                vscode.window.showErrorMessage(i18next.t("errors.tokenWrongOrExpired"))
-            })
+                .catch(res => 
+                {
+                    vscode.window.showErrorMessage(i18next.t("errors.tokenWrongOrExpired"))
+                })
         }
+
+        public isNotConfigured(): boolean
+        {
+            return this.configuration.get("authtoken") == null
+        }
+
         private selectProject(): Promise<api.Project>
         {
             return new Promise((resolve, reject) =>
                 this.getProjectApi()
                     .listProjects()
-                    .then(({response, body}: { response: Object; body: Array<api.Project>; }) =>
+                    .then(({ response, body }: { response: Object; body: Array<api.Project>; }) =>
                     {
                         let list: Array<projectQuickPick> = []
                         body.forEach(element =>
@@ -150,7 +156,7 @@ export module gitlab
         private async getAuthtoken()
         {
             let userNameG, userPass;
-            if (this.configuration.get("authtoken") == null)
+            if (this.isNotConfigured())
             {
                 await new Promise<void>((resolve, reject) =>
                 {
