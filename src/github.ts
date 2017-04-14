@@ -28,9 +28,11 @@ export module github
         private dateTimeHandler: ShareCodeClasses.dateTime
         private fileHandler: ShareCodeClasses.tmpFile
         private description: string
+        private anonym: boolean
 
-        constructor()
+        constructor(anonym: boolean)
         {
+            this.anonym = anonym
             this.configuration = new ShareCodeClasses.Configuration('github')
             this.fileHandler = new ShareCodeClasses.tmpFile('github')
             this.dateTimeHandler = new ShareCodeClasses.dateTime()
@@ -45,18 +47,18 @@ export module github
             });
         }
 
-        public upload(fileToUpload: ShareCodeClasses.file, defaults: boolean = false): Promise<string>
+        public upload(fileToUpload: ShareCodeClasses.file): Promise<string>
         {
-            if (!defaults)
+            if (this.isAnonym())
+            {
+                return this.uploadFile(fileToUpload)
+            }
+            else
             {
                 return this.auth().then(() =>
                 {
                     return this.uploadFile(fileToUpload)
                 });
-            }
-            else
-            {
-                return this.uploadFile(fileToUpload)
             }
         }
 
@@ -114,6 +116,11 @@ export module github
         public isNotConfigured(): boolean
         {
             return this.configuration.get("authtoken") == null
+        }
+
+        public isAnonym(): boolean
+        {
+            return this.anonym
         }
 
         private auth(): Promise<string>

@@ -13,8 +13,7 @@ export module ShareCode
 {
     interface ServiceQuickPick extends vscode.QuickPickItem
     {
-        service: ShareCodeClasses.Service,
-        anonym: Boolean
+        service: ShareCodeClasses.Service
     }
 
     export class ShareCode
@@ -27,7 +26,7 @@ export module ShareCode
                 (selection: ServiceQuickPick) =>
                 {
                     if (selection != undefined)
-                        selection.service.upload(file, selection.anonym).then((url: string) =>
+                        selection.service.upload(file).then((url: string) =>
                         {
                             this.showUrlAndOpen(url)
                         })
@@ -74,34 +73,28 @@ export module ShareCode
                 {
                     label: i18next.t("pastebin.service"),
                     description: "",
-                    anonym: false,
-                    service: new pastebin.pastebin
+                    service: new pastebin.pastebin(false)
                 }, {
                     label: i18next.t("github.service"),
                     description: "",
-                    anonym: false,
-                    service: new github.github
+                    service: new github.github(false)
                 }, {
                     label: i18next.t("gitlab.service"),
                     description: "",
-                    anonym: false,
-                    service: new gitlab.gitlab
-                },
-                {
+                    service: new gitlab.gitlab(false)
+                }, {
                     label: i18next.t("pastebin.serviceAnym"),
                     description: "",
-                    anonym: true,
-                    service: new pastebin.pastebin
+                    service: new pastebin.pastebin(true)
                 }, {
                     label: i18next.t("github.serviceAnym"),
                     description: "",
-                    anonym: true,
-                    service: new github.github
+                    service: new github.github(true)
                 }
             ]
             if (!withAnonym)
             {
-                services = _.filter(services, function (service) { return !service.anonym })
+                services = _.filter(services, function (service) { return !service.service.isAnonym() })
             }
             return _.sortBy(services, function (service) { return service.service.isNotConfigured() })
         }
@@ -118,9 +111,10 @@ export module ShareCodeClasses
 {
     export interface Service
     {
-        upload(file: file, anonym: Boolean): Promise<string>,
+        upload(file: file): Promise<string>,
         open(): Promise<any>,
-        isNotConfigured(): boolean
+        isNotConfigured(): boolean,
+        isAnonym(): boolean
     }
 
     export class Configuration

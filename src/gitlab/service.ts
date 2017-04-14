@@ -31,15 +31,17 @@ export module gitlab
         private dateTimeHandler: ShareCodeClasses.dateTime
         private fileHandler: ShareCodeClasses.tmpFile
         private authtoken: string
+        private anonym: boolean
 
-        constructor()
+        constructor(anonym: boolean)
         {
+            this.anonym = anonym
             this.configuration = new ShareCodeClasses.Configuration('gitlab')
             this.fileHandler = new ShareCodeClasses.tmpFile('gitlab')
             this.dateTimeHandler = new ShareCodeClasses.dateTime()
         }
 
-        upload(file: ShareCodeClasses.file, anonym: Boolean): Promise<string>
+        upload(file: ShareCodeClasses.file): Promise<string>
         {
             return new Promise((resolve, reject) =>
             {
@@ -124,6 +126,11 @@ export module gitlab
         public isNotConfigured(): boolean
         {
             return this.configuration.get("authtoken") == null
+        }
+
+        public isAnonym(): boolean
+        {
+            return this.anonym
         }
 
         private selectProject(): Promise<api.Project>
