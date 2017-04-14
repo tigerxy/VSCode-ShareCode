@@ -113,8 +113,9 @@ export module ShareCode
 
         private showUrlAndOpen(url: string)
         {
-            vscode.window.showInformationMessage(i18next.t("publishedMessage") + url);
-            opn(url);
+            vscode.window.showInformationMessage(i18next.t("publishedMessage") + url)
+            if (vscode.workspace.getConfiguration("shareCode").get("openSharedCodeInBrowser"))
+                opn(url)
         }
     }
 }

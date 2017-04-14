@@ -81,6 +81,11 @@
           "type": "string",
           "default": null,
           "description": "GitLab Authentication Token."
+        },
+        "shareCode.openSharedCodeInBrowser": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open shared code in browser after sharing."
         }
       }
     }
@@ -96,6 +101,7 @@
     "opn": "^4.0.1",
     "request": "^2.69.0",
     "request-promise": "^4.1.1",
+    "typescript": "^2.3.0",
     "underscore": "^1.8.3",
     "vscode": "^1.0.3",
     "xml2js": "^0.4.16"
