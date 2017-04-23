@@ -1,3 +1,7 @@
+### Version 0.4.1
+* Added setting option to prevent the browser from opening after sharing
+* Order of the list changed. The configured services are now coming first.
+
 ### Version 0.4.0
 * GitLab support
 * Changelog moved to sperated file
