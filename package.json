@@ -1,89 +1,132 @@
 {
   "name": "sharecode",
-	"version": "1.0.0",
-	"publisher": "RolandGreim",
-	"engines": {
-		"vscode": "^1.58.0"
-	},
-	"license": "GPL-3.0",
-	"displayName": "Share Code",
-	"description": "Share your Code on GitHub Gist, GitLab or Pastebin.",
-	"categories": [
-		"Other"
-	],
-	"keywords": [
-	  "GitHub",
-	  "GitLab",
-	  "Pastebin",
-	  "Gist",
-	  "Share"
-	],
-	"galleryBanner": {
-	  "color": "#008080",
-	  "theme": "light"
-	},
-	"main": "./out/extension.js",
-	"contributes": {
-		"menus": {
-		  "editor/title": [
-			{
-			  "command": "extension.shareCode.share",
-			  "title": "Share Code"
-			}
-		  ],
-		  "editor/context": [
-			{
-			  "command": "extension.shareCode.share",
-			  "title": "Share Code"
-			}
-		  ]
-		},
-		"commands": [
-		  {
-			"command": "extension.shareCode.share",
-			"title": "Share Code: share"
-		  },
-		  {
-			"command": "extension.shareCode.open",
-			"title": "Share Code: open"
-		  }
-		]
-	},
-	"activationEvents": [
-	  "onCommand:extension.shareCode.open",
-	  "onCommand:extension.shareCode.share"
-	],
-	"dependencies": {},
-	"devDependencies": {
-		"@types/vscode": "^1.58.0",
-		"@types/glob": "^7.1.3",
-		"@types/mocha": "^8.2.2",
-		"@types/node": "14.x",
-		"eslint": "^7.27.0",
-		"@typescript-eslint/eslint-plugin": "^4.26.0",
-		"@typescript-eslint/parser": "^4.26.0",
-		"glob": "^7.1.7",
-		"mocha": "^8.4.0",
-		"typescript": "^4.3.2",
-		"vscode-test": "^1.5.2"
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
-	},
-	"icon": "images/sharecode.svg",
-	"author": {
-	  "name": "Roland Greim - http://www.rolandgreim.de/"
-	},
-	"repository": {
-	  "type": "git",
-	  "url": "https://github.com/tigerxy/VSCode-ShareCode"
-	},
-	"bugs": {
-	  "url": "https://github.com/tigerxy/VSCode-ShareCode/issues"
-	}
+  "version": "0.4.1",
+  "publisher": "RolandGreim",
+  "engines": {
+    "vscode": "^1.6.0"
+  },
+  "license": "GPL-3.0",
+  "displayName": "Share Code",
+  "description": "Share your Code on GitHub Gist, GitLab or Pastebin.",
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "GitHub",
+    "GitLab",
+    "Pastebin",
+    "Gist",
+    "Share"
+  ],
+  "galleryBanner": {
+    "color": "#008080",
+    "theme": "light"
+  },
+  "main": "./out/src/extension",
+  "contributes": {
+    "menus": {
+      "editor/title": [
+        {
+          "command": "extension.shareCode.share",
+          "title": "Share Code"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "extension.shareCode.share",
+          "title": "Share Code"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "extension.shareCode.share",
+        "title": "Share Code: share"
+      },
+      {
+        "command": "extension.shareCode.open",
+        "title": "Share Code: open"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Share Code configuration",
+      "properties": {
+        "shareCode.pastebin.username": {
+          "type": "string",
+          "default": "",
+          "description": "Cached pastebin username."
+        },
+        "shareCode.pastebin.authtoken": {
+          "type": "string",
+          "default": null,
+          "description": "Pastebin Authentication Token."
+        },
+        "shareCode.github.username": {
+          "type": "string",
+          "default": "",
+          "description": "Cached github username."
+        },
+        "shareCode.github.authtoken": {
+          "type": "string",
+          "default": null,
+          "description": "GitHub Authentication Token."
+        },
+        "shareCode.gitlab.baseurl": {
+          "type": "string",
+          "default": "https://gitlab.com/",
+          "description": "Baseurl of GitLab server."
+        },
+        "shareCode.gitlab.authtoken": {
+          "type": "string",
+          "default": null,
+          "description": "GitLab Authentication Token."
+        },
+        "shareCode.openSharedCodeInBrowser": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open shared code in browser after sharing."
+        }
+      }
+    }
+  },
+  "activationEvents": [
+    "onCommand:extension.shareCode.open",
+    "onCommand:extension.shareCode.share"
+  ],
+  "dependencies": {
+    "github": "^5.1.0",
+    "i18next": "^3.4.3",
+    "moment": "^2.15.1",
+    "opn": "^4.0.1",
+    "request": "^2.69.0",
+    "request-promise": "^4.1.1",
+    "typescript": "^2.3.0",
+    "underscore": "^1.8.3",
+    "vscode": "^1.0.3",
+    "xml2js": "^0.4.16"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.40",
+    "mocha": "^2.3.3",
+    "typescript": "^2.1.4",
+    "vscode": "^1.0.3"
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "icon": "images/sharecode.svg",
+  "author": {
+    "name": "Roland Greim - http://www.rolandgreim.de/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tigerxy/VSCode-ShareCode"
+  },
+  "bugs": {
+    "url": "https://github.com/tigerxy/VSCode-ShareCode/issues"
+  }
 }

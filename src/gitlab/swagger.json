@@ -1,0 +1,1900 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "3",
+        "title": "GitLab API"
+    },
+    "host": "gitlab.com",
+    "basePath": "/api/v3",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "privateTokenQuery": {
+            "type": "apiKey",
+            "description": "You need to pass a `private_token` parameter via query string or header. If passed as a header, the header name must be `PRIVATE-TOKEN` (uppercase and with a dash instead of an underscore). You can find or reset your private token in your account page (`/profile/account`).",
+            "name": "private_token",
+            "in": "query"
+        },
+        "privateTokenHeader": {
+            "type": "apiKey",
+            "description": "You need to pass a `private_token` parameter via query string or header. If passed as a header, the header name must be `PRIVATE-TOKEN` (uppercase and with a dash instead of an underscore). You can find or reset your private token in your account page (`/profile/account`).",
+            "name": "PRIVATE-TOKEN",
+            "in": "header"
+        }
+    },
+    "security": [
+        {
+            "privateTokenQuery": []
+        },
+        {
+            "privateTokenHeader": []
+        }
+    ],
+    "paths": {
+        "/groups": {
+            "get": {
+                "operationId": "listGroups",
+                "tags": [
+                    "groups"
+                ],
+                "summary": "List groups",
+                "description": "Get a list of groups. (As user: my groups, as admin: all groups)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Group"
+                            }
+                        },
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "name": "Foobar Group",
+                                    "path": "foo-bar",
+                                    "description": "An interesting group"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/groups/{id}/projects": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "type": "string",
+                    "required": true
+                }
+            ],
+            "get": {
+                "operationId": "listGroupProjects",
+                "tags": [
+                    "groups"
+                ],
+                "summary": "List a group's projects",
+                "description": "Get a list of projects in this group.",
+                "parameters": [
+                    {
+                        "name": "archived",
+                        "description": "if passed, limit by archived status",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "visibility",
+                        "description": "if passed, limit by visibility `public`, `internal`, `private`",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "public",
+                            "internal",
+                            "private"
+                        ]
+                    },
+                    {
+                        "name": "order_by",
+                        "description": "Return requests ordered by `id`, `name`, `path`, `created_at`, `updated_at` or `last_activity_at` fields. Default is `created_at",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "id",
+                            "name",
+                            "path",
+                            "created_at",
+                            "updated_at",
+                            "last_activity_at"
+                        ]
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Return requests sorted in `asc` or `desc` order. Default is `desc`",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "asc",
+                            "desc"
+                        ]
+                    },
+                    {
+                        "name": "search",
+                        "description": "Return list of authorized projects according to a search criteria",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ci_enabled_first",
+                        "description": "Return projects ordered by ci_enabled flag. Projects with enabled GitLab CI go first",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Project"
+                            }
+                        },
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id": 4,
+                                    "description": null,
+                                    "default_branch": "master",
+                                    "public": false,
+                                    "visibility_level": 0,
+                                    "ssh_url_to_repo": "git@example.com:diaspora/diaspora-client.git",
+                                    "http_url_to_repo": "http://example.com/diaspora/diaspora-client.git",
+                                    "web_url": "http://example.com/diaspora/diaspora-client",
+                                    "tag_list": [
+                                        "example",
+                                        "disapora client"
+                                    ],
+                                    "owner": {
+                                        "id": 3,
+                                        "name": "Diaspora",
+                                        "created_at": "2013-09-30T13: 46: 02Z"
+                                    },
+                                    "name": "Diaspora Client",
+                                    "name_with_namespace": "Diaspora / Diaspora Client",
+                                    "path": "diaspora-client",
+                                    "path_with_namespace": "diaspora/diaspora-client",
+                                    "issues_enabled": true,
+                                    "merge_requests_enabled": true,
+                                    "builds_enabled": true,
+                                    "wiki_enabled": true,
+                                    "snippets_enabled": false,
+                                    "created_at": "2013-09-30T13: 46: 02Z",
+                                    "last_activity_at": "2013-09-30T13: 46: 02Z",
+                                    "creator_id": 3,
+                                    "namespace": {
+                                        "created_at": "2013-09-30T13: 46: 02Z",
+                                        "description": "",
+                                        "id": 3,
+                                        "name": "Diaspora",
+                                        "owner_id": 1,
+                                        "path": "diaspora",
+                                        "updated_at": "2013-09-30T13: 46: 02Z"
+                                    },
+                                    "archived": false,
+                                    "avatar_url": "http://example.com/uploads/project/avatar/4/uploads/avatar.png"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/projects": {
+            "get": {
+              "operationId": "listProjects",
+              "tags": [
+                  "project"
+              ],
+              "summary": "List projects",
+              "description": "Get a list of projects for which the authenticated user is a member.",
+              "parameters": [
+                {
+                  "name": "archived",
+                  "description": "if passed, limit by archived status",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "visibility",
+                  "description": "if passed, limit by visibility `public`, `internal`, `private`",
+                  "in": "query",
+                  "required": false,
+                  "type": "string",
+                  "enum": [
+                      "public",
+                      "internal",
+                      "private"
+                  ]
+                },
+                {
+                  "name": "order_by",
+                  "description": "Return projects ordered by `id`, `name`, `path`, `created_at`, `updated_at`, or `last_activity_at` fields. Default is `created_at`",
+                  "in": "query",
+                  "required": false,
+                  "type": "string",
+                  "enum": [
+                      "id", 
+                      "name", 
+                      "path", 
+                      "created_at", 
+                      "updated_at",
+                      "last_activity_at"
+                  ]
+                },
+                {
+                  "name": "sort",
+                  "description": "Return projects sorted in `asc` or `desc` order. Default is `desc`",
+                  "in": "query",
+                  "required": false,
+                  "type": "string",
+                  "enum": [
+                      "asc", 
+                      "desc"
+                  ]
+                },
+                {
+                  "name": "search",
+                  "description": "Return list of authorized projects matching the search criteria",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "simple",
+                  "description": "Return only the ID, URL, name, and path of each project",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "OK",
+                  "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/Project"
+                      }
+                  },
+                  "examples": {
+                    "application/json": [
+                      {
+                        "id": 4,
+                        "description": null,
+                        "default_branch": "master",
+                        "public": false,
+                        "visibility_level": 0,
+                        "ssh_url_to_repo": "git@example.com:diaspora/diaspora-client.git",
+                        "http_url_to_repo": "http://example.com/diaspora/diaspora-client.git",
+                        "web_url": "http://example.com/diaspora/diaspora-client",
+                        "tag_list": [
+                          "example",
+                          "disapora client"
+                        ],
+                        "owner": {
+                          "id": 3,
+                          "name": "Diaspora",
+                          "created_at": "2013-09-30T13:46:02Z"
+                        },
+                        "name": "Diaspora Client",
+                        "name_with_namespace": "Diaspora / Diaspora Client",
+                        "path": "diaspora-client",
+                        "path_with_namespace": "diaspora/diaspora-client",
+                        "issues_enabled": true,
+                        "open_issues_count": 1,
+                        "merge_requests_enabled": true,
+                        "builds_enabled": true,
+                        "wiki_enabled": true,
+                        "snippets_enabled": false,
+                        "container_registry_enabled": false,
+                        "created_at": "2013-09-30T13:46:02Z",
+                        "last_activity_at": "2013-09-30T13:46:02Z",
+                        "creator_id": 3,
+                        "namespace": {
+                          "created_at": "2013-09-30T13:46:02Z",
+                          "description": "",
+                          "id": 3,
+                          "name": "Diaspora",
+                          "owner_id": 1,
+                          "path": "diaspora",
+                          "updated_at": "2013-09-30T13:46:02Z"
+                        },
+                        "archived": false,
+                        "avatar_url": "http://example.com/uploads/project/avatar/4/uploads/avatar.png",
+                        "shared_runners_enabled": true,
+                        "forks_count": 0,
+                        "star_count": 0,
+                        "runners_token": "b8547b1dc37721d05889db52fa2f02",
+                        "public_builds": true,
+                        "shared_with_groups": [],
+                        "only_allow_merge_if_build_succeeds": false,
+                        "only_allow_merge_if_all_discussions_are_resolved": false,
+                        "request_access_enabled": false
+                      },
+                      {
+                        "id": 6,
+                        "description": null,
+                        "default_branch": "master",
+                        "public": false,
+                        "visibility_level": 0,
+                        "ssh_url_to_repo": "git@example.com:brightbox/puppet.git",
+                        "http_url_to_repo": "http://example.com/brightbox/puppet.git",
+                        "web_url": "http://example.com/brightbox/puppet",
+                        "tag_list": [
+                          "example",
+                          "puppet"
+                        ],
+                        "owner": {
+                          "id": 4,
+                          "name": "Brightbox",
+                          "created_at": "2013-09-30T13:46:02Z"
+                        },
+                        "name": "Puppet",
+                        "name_with_namespace": "Brightbox / Puppet",
+                        "path": "puppet",
+                        "path_with_namespace": "brightbox/puppet",
+                        "issues_enabled": true,
+                        "open_issues_count": 1,
+                        "merge_requests_enabled": true,
+                        "builds_enabled": true,
+                        "wiki_enabled": true,
+                        "snippets_enabled": false,
+                        "container_registry_enabled": false,
+                        "created_at": "2013-09-30T13:46:02Z",
+                        "last_activity_at": "2013-09-30T13:46:02Z",
+                        "creator_id": 3,
+                        "namespace": {
+                          "created_at": "2013-09-30T13:46:02Z",
+                          "description": "",
+                          "id": 4,
+                          "name": "Brightbox",
+                          "owner_id": 1,
+                          "path": "brightbox",
+                          "updated_at": "2013-09-30T13:46:02Z"
+                        },
+                        "permissions": {
+                          "project_access": {
+                            "access_level": 10,
+                            "notification_level": 3
+                          },
+                          "group_access": {
+                            "access_level": 50,
+                            "notification_level": 3
+                          }
+                        },
+                        "archived": false,
+                        "avatar_url": null,
+                        "shared_runners_enabled": true,
+                        "forks_count": 0,
+                        "star_count": 0,
+                        "runners_token": "b8547b1dc37721d05889db52fa2f02",
+                        "public_builds": true,
+                        "shared_with_groups": [],
+                        "only_allow_merge_if_build_succeeds": false,
+                        "only_allow_merge_if_all_discussions_are_resolved": false,
+                        "request_access_enabled": false
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+        },
+        "/projects/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The ID or NAMESPACE/PROJECT_NAME of a project",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
+                    "required": true
+                }
+            ],
+            "get": {
+                "operationId": "getProject",
+                "tags": [
+                    "project"
+                ],
+                "summary": "Get single project",
+                "description": "Get a specific project, identified by project ID or NAMESPACE/PROJECT_NAME, which is owned by the authenticated user. If using namespaced projects call make sure that the NAMESPACE/PROJECT_NAME is URL-encoded, eg. /api/v3/projects/diaspora%2Fdiaspora (where / is represented by %2F).",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Project"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 3,
+                                "description": null,
+                                "default_branch": "master",
+                                "public": false,
+                                "visibility_level": 0,
+                                "ssh_url_to_repo": "git@example.com:diaspora/diaspora-project-site.git",
+                                "http_url_to_repo": "http://example.com/diaspora/diaspora-project-site.git",
+                                "web_url": "http://example.com/diaspora/diaspora-project-site",
+                                "tag_list": [
+                                    "example",
+                                    "disapora project"
+                                ],
+                                "owner": {
+                                    "id": 3,
+                                    "name": "Diaspora",
+                                    "created_at": "2013-09-30T13:46:02Z"
+                                },
+                                "name": "Diaspora Project Site",
+                                "name_with_namespace": "Diaspora / Diaspora Project Site",
+                                "path": "diaspora-project-site",
+                                "path_with_namespace": "diaspora/diaspora-project-site",
+                                "issues_enabled": true,
+                                "open_issues_count": 1,
+                                "merge_requests_enabled": true,
+                                "builds_enabled": true,
+                                "wiki_enabled": true,
+                                "snippets_enabled": false,
+                                "container_registry_enabled": false,
+                                "created_at": "2013-09-30T13:46:02Z",
+                                "last_activity_at": "2013-09-30T13:46:02Z",
+                                "creator_id": 3,
+                                "namespace": {
+                                    "created_at": "2013-09-30T13:46:02Z",
+                                    "description": "",
+                                    "id": 3,
+                                    "name": "Diaspora",
+                                    "owner_id": 1,
+                                    "path": "diaspora",
+                                    "updated_at": "2013-09-30T13:46:02Z"
+                                },
+                                "permissions": {
+                                    "project_access": {
+                                        "access_level": 10,
+                                        "notification_level": 3
+                                    },
+                                    "group_access": {
+                                        "access_level": 50,
+                                        "notification_level": 3
+                                    }
+                                },
+                                "archived": false,
+                                "avatar_url": "http://example.com/uploads/project/avatar/3/uploads/avatar.png",
+                                "shared_runners_enabled": true,
+                                "forks_count": 0,
+                                "star_count": 0,
+                                "runners_token": "b8bc4a7a29eb76ea83cf79e4908c2b",
+                                "public_builds": true,
+                                "shared_with_groups": [
+                                    {
+                                        "group_id": 4,
+                                        "group_name": "Twitter",
+                                        "group_access_level": 30
+                                    },
+                                    {
+                                        "group_id": 3,
+                                        "group_name": "Gitlab Org",
+                                        "group_access_level": 10
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{id}/repository/branches": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The ID or NAMESPACE/PROJECT_NAME of a project",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
+                    "required": true
+                }
+            ],
+            "get": {
+                "operationId": "listBranches",
+                "tags": [
+                    "project"
+                ],
+                "summary": "List branches",
+                "description": "Lists all branches of a project.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Branch"
+                            }
+                        },
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "name": "async",
+                                    "commit": {
+                                        "id": "a2b702edecdf41f07b42653eb1abe30ce98b9fca",
+                                        "parents": [
+                                            {
+                                                "id": "3f94fc7c85061973edc9906ae170cc269b07ca55"
+                                            }
+                                        ],
+                                        "tree": "c68537c6534a02cc2b176ca1549f4ffa190b58ee",
+                                        "message": "give Caolan credit where it's due (up top)",
+                                        "author": {
+                                            "name": "Jeremy Ashkenas",
+                                            "email": "jashkenas@example.com"
+                                        },
+                                        "committer": {
+                                            "name": "Jeremy Ashkenas",
+                                            "email": "jashkenas@example.com"
+                                        },
+                                        "authored_date": "2010-12-08T21:28:50+00:00",
+                                        "committed_date": "2010-12-08T21:28:50+00:00"
+                                    },
+                                    "protected": false
+                                },
+                                {
+                                    "name": "gh-pages",
+                                    "commit": {
+                                        "id": "101c10a60019fe870d21868835f65c25d64968fc",
+                                        "parents": [
+                                            {
+                                                "id": "9c15d2e26945a665131af5d7b6d30a06ba338aaa"
+                                            }
+                                        ],
+                                        "tree": "fb5cc9d45da3014b17a876ad539976a0fb9b352a",
+                                        "message": "Underscore.js 1.5.2",
+                                        "author": {
+                                            "name": "Jeremy Ashkenas",
+                                            "email": "jashkenas@example.com"
+                                        },
+                                        "committer": {
+                                            "name": "Jeremy Ashkenas",
+                                            "email": "jashkenas@example.com"
+                                        },
+                                        "authored_date": "2013-09-07T12: 58: 21+00: 00",
+                                        "committed_date": "2013-09-07T12: 58: 21+00: 00"
+                                    },
+                                    "protected": false
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{id}/repository/tags": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The ID or NAMESPACE/PROJECT_NAME of a project",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
+                    "required": true
+                }
+            ],
+            "get": {
+                "operationId": "listTags",
+                "tags": [
+                    "tags"
+                ],
+                "summary": "List project repository tags",
+                "description": "Get a list of repository tags from a project, sorted by name in reverse alphabetical order.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Tag"
+                            }
+                        },
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "commit": {
+                                        "author_name": "John Smith",
+                                        "author_email": "john@example.com",
+                                        "authored_date": "2012-05-28T04:42:42-07:00",
+                                        "committed_date": "2012-05-28T04:42:42-07:00",
+                                        "committer_name": "Jack Smith",
+                                        "committer_email": "jack@example.com",
+                                        "id": "2695effb5807a22ff3d138d593fd856244e155e7",
+                                        "message": "Initial commit",
+                                        "parents_ids": [
+                                            "2a4b78934375d7f53875269ffd4f45fd83a84ebe"
+                                        ]
+                                    },
+                                    "release": {
+                                        "tag_name": "1.0.0",
+                                        "description": "Amazing release. Wow"
+                                    },
+                                    "name": "v1.0.0",
+                                    "message": null
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{id}/merge_requests": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The ID of a project",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/]+)$",
+                    "required": true
+                }
+            ],
+            "get": {
+                "operationId": "listMergeRequests",
+                "tags": [
+                    "merge requests"
+                ],
+                "summary": "List merge requests",
+                "description": "Get all merge requests for this project. The state parameter can be used to get only merge requests with a given state (`opened`, `closed`, or `merged`) or all of them (`all`). The pagination parameters `page` and `per_page` can be used to restrict the list of merge requests.",
+                "parameters": [
+                    {
+                        "name": "iid",
+                        "description": "Return the request having the given `iid`",
+                        "in": "query",
+                        "type": "integer",
+                        "required": false
+                    },
+                    {
+                        "name": "state",
+                        "description": "Return `all` requests or just those that are `merged`, `opened` or `closed`",
+                        "in": "query",
+                        "type": "string",
+                        "enum": [
+                            "all",
+                            "merged",
+                            "opened",
+                            "closed"
+                        ],
+                        "required": false
+                    },
+                    {
+                        "name": "order_by",
+                        "description": "Return requests ordered by `created_at` or `updated_at` fields. Default is `created_at`",
+                        "in": "query",
+                        "type": "string",
+                        "enum": [
+                            "created_at",
+                            "updated_at"
+                        ],
+                        "required": false
+                    },
+                    {
+                        "name": "sort",
+                        "description": "Return requests sorted in `asc` or `desc` order. Default is `desc`",
+                        "in": "query",
+                        "type": "string",
+                        "enum": [
+                            "asc",
+                            "desc"
+                        ],
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/MergeRequest"
+                            }
+                        },
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "iid": 1,
+                                    "target_branch": "master",
+                                    "source_branch": "test1",
+                                    "project_id": 3,
+                                    "title": "test1",
+                                    "state": "opened",
+                                    "upvotes": 0,
+                                    "downvotes": 0,
+                                    "author": {
+                                        "id": 1,
+                                        "username": "admin",
+                                        "email": "admin@example.com",
+                                        "name": "Administrator",
+                                        "state": "active",
+                                        "created_at": "2012-04-29T08:46:00Z"
+                                    },
+                                    "assignee": {
+                                        "id": 1,
+                                        "username": "admin",
+                                        "email": "admin@example.com",
+                                        "name": "Administrator",
+                                        "state": "active",
+                                        "created_at": "2012-04-29T08:46:00Z"
+                                    },
+                                    "source_project_id": "2",
+                                    "target_project_id": "3",
+                                    "labels": [],
+                                    "description": "fixed login page css paddings",
+                                    "work_in_progress": false,
+                                    "milestone": {
+                                        "id": 5,
+                                        "iid": 1,
+                                        "project_id": 3,
+                                        "title": "v2.0",
+                                        "description": "Assumenda aut placeat expedita exercitationem labore sunt enim earum.",
+                                        "state": "closed",
+                                        "created_at": "2015-02-02T19:49:26.013Z",
+                                        "updated_at": "2015-02-02T19:49:26.013Z",
+                                        "due_date": null
+                                    },
+                                    "merge_when_build_succeeds": true,
+                                    "merge_status": "can_be_merged",
+                                    "subscribed": false,
+                                    "user_notes_count": 1
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "createMergeRequest",
+                "tags": [
+                    "merge requests"
+                ],
+                "summary": "Create MR",
+                "description": "Creates a new merge request.",
+                "parameters": [
+                    {
+                        "name": "source_branch",
+                        "description": "The source branch",
+                        "in": "query",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "target_branch",
+                        "description": "The target branch",
+                        "in": "query",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "assignee_id",
+                        "description": "Assignee user ID",
+                        "in": "query",
+                        "type": "integer",
+                        "required": false
+                    },
+                    {
+                        "name": "title",
+                        "description": "Title of MR",
+                        "in": "query",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "description",
+                        "description": "Description of MR",
+                        "in": "query",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "target_project_id",
+                        "description": "The target project (numeric id)",
+                        "in": "query",
+                        "type": "integer",
+                        "required": false
+                    },
+                    {
+                        "name": "labels",
+                        "description": "Labels for MR as a comma-separated list",
+                        "in": "query",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "required": false
+                    },
+                    {
+                        "name": "milestone_id",
+                        "description": "Milestone ID",
+                        "in": "query",
+                        "type": "integer",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/MergeRequest"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 1,
+                                "target_branch": "master",
+                                "source_branch": "test1",
+                                "project_id": 3,
+                                "title": "test1",
+                                "state": "opened",
+                                "upvotes": 0,
+                                "downvotes": 0,
+                                "author": {
+                                    "id": 1,
+                                    "username": "admin",
+                                    "email": "admin@example.com",
+                                    "name": "Administrator",
+                                    "state": "active",
+                                    "created_at": "2012-04-29T08:46:00Z"
+                                },
+                                "assignee": {
+                                    "id": 1,
+                                    "username": "admin",
+                                    "email": "admin@example.com",
+                                    "name": "Administrator",
+                                    "state": "active",
+                                    "created_at": "2012-04-29T08:46:00Z"
+                                },
+                                "source_project_id": 4,
+                                "target_project_id": 4,
+                                "labels": [],
+                                "description": "fixed login page css paddings",
+                                "work_in_progress": false,
+                                "milestone": {
+                                    "id": 5,
+                                    "iid": 1,
+                                    "project_id": 4,
+                                    "title": "v2.0",
+                                    "description": "Assumenda aut placeat expedita exercitationem labore sunt enim earum.",
+                                    "state": "closed",
+                                    "created_at": "2015-02-02T19:49:26.013Z",
+                                    "updated_at": "2015-02-02T19:49:26.013Z",
+                                    "due_date": null
+                                },
+                                "merge_when_build_succeeds": true,
+                                "merge_status": "can_be_merged",
+                                "subscribed": true,
+                                "user_notes_count": 0
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{id}/merge_requests/{merge_request_id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The ID of a project",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/]+)$",
+                    "required": true
+                },
+                {
+                    "name": "merge_request_id",
+                    "description": "ID of MR",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true
+                }
+            ],
+            "put": {
+                "operationId": "updateMergeRequest",
+                "tags": [
+                    "merge requests"
+                ],
+                "summary": "Update MR",
+                "description": "Updates an existing merge request. You can change the target branch, title, or even close the MR.",
+                "parameters": [
+                    {
+                        "name": "target_branch",
+                        "description": "The target branch",
+                        "in": "query",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "assignee_id",
+                        "description": "Assignee user ID",
+                        "in": "query",
+                        "type": "integer",
+                        "required": false
+                    },
+                    {
+                        "name": "title",
+                        "description": "Title of MR",
+                        "in": "query",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "description",
+                        "description": "Description of MR",
+                        "in": "query",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "state_event",
+                        "description": "New state (close|reopen|merge)",
+                        "in": "query",
+                        "type": "string",
+                        "enum": [
+                            "close",
+                            "reopen",
+                            "merge"
+                        ],
+                        "required": false
+                    },
+                    {
+                        "name": "labels",
+                        "description": "Labels for MR as a comma-separated list",
+                        "in": "query",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "required": false
+                    },
+                    {
+                        "name": "milestone_id",
+                        "description": "Milestone ID",
+                        "in": "query",
+                        "type": "integer",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/MergeRequest"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 1,
+                                "target_branch": "master",
+                                "project_id": 3,
+                                "title": "test1",
+                                "state": "opened",
+                                "upvotes": 0,
+                                "downvotes": 0,
+                                "author": {
+                                    "id": 1,
+                                    "username": "admin",
+                                    "email": "admin@example.com",
+                                    "name": "Administrator",
+                                    "state": "active",
+                                    "created_at": "2012-04-29T08:46:00Z"
+                                },
+                                "assignee": {
+                                    "id": 1,
+                                    "username": "admin",
+                                    "email": "admin@example.com",
+                                    "name": "Administrator",
+                                    "state": "active",
+                                    "created_at": "2012-04-29T08:46:00Z"
+                                },
+                                "source_project_id": 4,
+                                "target_project_id": 4,
+                                "labels": [],
+                                "description": "description1",
+                                "work_in_progress": false,
+                                "milestone": {
+                                    "id": 5,
+                                    "iid": 1,
+                                    "project_id": 4,
+                                    "title": "v2.0",
+                                    "description": "Assumenda aut placeat expedita exercitationem labore sunt enim earum.",
+                                    "state": "closed",
+                                    "created_at": "2015-02-02T19:49:26.013Z",
+                                    "updated_at": "2015-02-02T19:49:26.013Z",
+                                    "due_date": null
+                                },
+                                "merge_when_build_succeeds": true,
+                                "merge_status": "can_be_merged",
+                                "subscribed": true,
+                                "user_notes_count": 1
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{id}/merge_requests/{merge_request_id}/merge": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The ID of a project",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/]+)$",
+                    "required": true
+                },
+                {
+                    "name": "merge_request_id",
+                    "description": "ID of MR",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true
+                }
+            ],
+            "put": {
+                "operationId": "acceptMergeRequest",
+                "tags": [
+                    "merge requests"
+                ],
+                "summary": "Accept MR",
+                "description": "Merge changes submitted with MR using this API. If the merge succeeds you'll get a 200 OK. If it has some conflicts and can not be merged - you'll get a 405 and the error message 'Branch cannot be merged' If merge request is already merged or closed - you'll get a 406 and the error message 'Method Not Allowed' If the sha parameter is passed and does not match the HEAD of the source - you'll get a 409 and the error message 'SHA does not match HEAD of source branch' If you don't have permissions to accept this merge request - you'll get a 401\n",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/MergeRequest"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": 1,
+                                "target_branch": "master",
+                                "project_id": 3,
+                                "title": "test1",
+                                "state": "opened",
+                                "upvotes": 0,
+                                "downvotes": 0,
+                                "author": {
+                                    "id": 1,
+                                    "username": "admin",
+                                    "email": "admin@example.com",
+                                    "name": "Administrator",
+                                    "state": "active",
+                                    "created_at": "2012-04-29T08:46:00Z"
+                                },
+                                "assignee": {
+                                    "id": 1,
+                                    "username": "admin",
+                                    "email": "admin@example.com",
+                                    "name": "Administrator",
+                                    "state": "active",
+                                    "created_at": "2012-04-29T08:46:00Z"
+                                },
+                                "source_project_id": 4,
+                                "target_project_id": 4,
+                                "labels": [],
+                                "description": "description1",
+                                "work_in_progress": false,
+                                "milestone": {
+                                    "id": 5,
+                                    "iid": 1,
+                                    "project_id": 4,
+                                    "title": "v2.0",
+                                    "description": "Assumenda aut placeat expedita exercitationem labore sunt enim earum.",
+                                    "state": "closed",
+                                    "created_at": "2015-02-02T19:49:26.013Z",
+                                    "updated_at": "2015-02-02T19:49:26.013Z",
+                                    "due_date": null
+                                },
+                                "merge_when_build_succeeds": true,
+                                "merge_status": "can_be_merged",
+                                "subscribed": true,
+                                "user_notes_count": 1
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Branch has merge conflicts and can not be automatically merged."
+                    },
+                    "406": {
+                        "description": "Merge request is already merged or closed"
+                    },
+                    "409": {
+                        "description": "SHA parameter is provided and has changed."
+                    }
+                }
+            }
+        },
+        "/projects/{id}/snippets": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The ID of a project",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
+                    "required": true
+                }
+            ],
+            "get": {
+                "operationId": "listSnippets",
+                "tags": [
+                    "snippets"
+                ],
+                "summary": "List snippets",
+                "description": "Lists all snippets of a project.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Snippets"
+                            }
+                        },
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "title": "test",
+                                    "file_name": "add.rb",
+                                    "author": {
+                                        "id": 1,
+                                        "username": "john_smith",
+                                        "email": "john@example.com",
+                                        "name": "John Smith",
+                                        "state": "active",
+                                        "created_at": "2012-05-23T08:00:58Z"
+                                    },
+                                    "expires_at": null,
+                                    "updated_at": "2012-06-28T10:52:04Z",
+                                    "created_at": "2012-06-28T10:52:04Z",
+                                    "web_url": "http://example.com/example/example/snippets/1"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "createSnippet",
+                "tags": [
+                    "snippets"
+                ],
+                "summary": "Create Snippet",
+                "description": "Creates a new project snippet. The user must have permission to create new snippets.",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "description": "The title of a snippet",
+                        "in": "query",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "file_name",
+                        "description": "The name of a snippet file",
+                        "in": "query",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "code",
+                        "description": "The content of a snippet",
+                        "in": "query",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "visibility_level",
+                        "description": "The snippet's visibility",
+                        "in": "query",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            10,
+                            20
+                        ],
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Snippets"
+                        },
+                        "examples": {
+                            "application/json": {
+                                    "id": 1,
+                                    "title": "test",
+                                    "file_name": "add.rb",
+                                    "author": {
+                                        "id": 1,
+                                        "username": "john_smith",
+                                        "email": "john@example.com",
+                                        "name": "John Smith",
+                                        "state": "active",
+                                        "created_at": "2012-05-23T08:00:58Z"
+                                    },
+                                    "expires_at": null,
+                                    "updated_at": "2012-06-28T10:52:04Z",
+                                    "created_at": "2012-06-28T10:52:04Z",
+                                    "web_url": "http://example.com/example/example/snippets/1"
+                                }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{id}/snippets/{snippet_id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The ID of a project",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
+                    "required": true
+                },
+                {
+                    "name": "snippet_id",
+                    "description": "The ID of a project's snippet",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
+                    "required": true
+                }
+            ],
+            "get": {
+                "operationId": "getSnippet",
+                "tags": [
+                    "snippets"
+                ],
+                "summary": "Single Snippet",
+                "description": "Get a single project snippet.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Snippets"
+                        },
+                        "examples": {
+                            "application/json": {
+                                    "id": 1,
+                                    "title": "test",
+                                    "file_name": "add.rb",
+                                    "author": {
+                                        "id": 1,
+                                        "username": "john_smith",
+                                        "email": "john@example.com",
+                                        "name": "John Smith",
+                                        "state": "active",
+                                        "created_at": "2012-05-23T08:00:58Z"
+                                    },
+                                    "expires_at": null,
+                                    "updated_at": "2012-06-28T10:52:04Z",
+                                    "created_at": "2012-06-28T10:52:04Z",
+                                    "web_url": "http://example.com/example/example/snippets/1"
+                                }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "operationId": "updateSnippet",
+                "tags": [
+                    "snippets"
+                ],
+                "summary": "Single Snippet",
+                "description": "Get a single project snippet.",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "description": "The title of a snippet",
+                        "in": "query",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "file_name",
+                        "description": "The name of a snippet file",
+                        "in": "query",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "code",
+                        "description": "The content of a snippet",
+                        "in": "query",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "visibility_level",
+                        "description": "The snippet's visibility",
+                        "in": "query",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            10,
+                            20
+                        ],
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Snippets"
+                        },
+                        "examples": {
+                            "application/json": {
+                                    "id": 1,
+                                    "title": "test",
+                                    "file_name": "add.rb",
+                                    "author": {
+                                        "id": 1,
+                                        "username": "john_smith",
+                                        "email": "john@example.com",
+                                        "name": "John Smith",
+                                        "state": "active",
+                                        "created_at": "2012-05-23T08:00:58Z"
+                                    },
+                                    "expires_at": null,
+                                    "updated_at": "2012-06-28T10:52:04Z",
+                                    "created_at": "2012-06-28T10:52:04Z",
+                                    "web_url": "http://example.com/example/example/snippets/1"
+                                }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "deleteSnippet",
+                "tags": [
+                    "snippets"
+                ],
+                "summary": "Delete Snippet",
+                "description": "Deletes an existing project snippet.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Snippets"
+                        },
+                        "examples": {
+                            "application/json": {
+                                    "id": 1,
+                                    "title": "test",
+                                    "content": "abc",
+                                    "author_id": 1,
+                                    "project_id": 1,
+                                    "created_at": "2012-06-28T10:52:04Z",
+                                    "updated_at": "2012-06-28T10:52:04Z",
+                                    "file_name": "add.rb",
+                                    "visibility_level": 0
+                                }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{id}/snippets/{snippet_id}/raw": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The ID of a project",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
+                    "required": true
+                },
+                {
+                    "name": "snippet_id",
+                    "description": "The ID of a project's snippet",
+                    "in": "path",
+                    "type": "string",
+                    "pattern": "^(\\d+|[^/]+(%2[fF])[^/])$",
+                    "required": true
+                }
+            ],
+            "get": {
+                "operationId": "getSnippetContent",
+                "tags": [
+                    "snippets"
+                ],
+                "summary": "Snippet content",
+                "description": "Returns the raw project snippet as plain text.",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Group": {
+            "type": "object",
+            "required": [
+                "id",
+                "name",
+                "path",
+                "description"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "Project": {
+            "type": "object",
+            "required": [
+                "id",
+                "description",
+                "default_branch",
+                "public",
+                "visibility_level",
+                "ssh_url_to_repo",
+                "http_url_to_repo",
+                "web_url",
+                "tag_list",
+                "name",
+                "name_with_namespace",
+                "path",
+                "path_with_namespace",
+                "issues_enabled",
+                "merge_requests_enabled",
+                "builds_enabled",
+                "wiki_enabled",
+                "snippets_enabled",
+                "created_at",
+                "last_activity_at",
+                "creator_id",
+                "namespace",
+                "archived",
+                "avatar_url"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "default_branch": {
+                    "type": "string"
+                },
+                "public": {
+                    "type": "boolean"
+                },
+                "visibility_level": {
+                    "type": "number"
+                },
+                "ssh_url_to_repo": {
+                    "type": "string"
+                },
+                "http_url_to_repo": {
+                    "type": "string"
+                },
+                "web_url": {
+                    "type": "string"
+                },
+                "tag_list": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "owner": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "number"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "created_at": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "name_with_namespace": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "path_with_namespace": {
+                    "type": "string"
+                },
+                "issues_enabled": {
+                    "type": "boolean"
+                },
+                "merge_requests_enabled": {
+                    "type": "boolean"
+                },
+                "builds_enabled": {
+                    "type": "boolean"
+                },
+                "wiki_enabled": {
+                    "type": "boolean"
+                },
+                "snippets_enabled": {
+                    "type": "boolean"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "last_activity_at": {
+                    "type": "string"
+                },
+                "creator_id": {
+                    "type": "number"
+                },
+                "namespace": {
+                    "type": "object",
+                    "properties": {
+                        "created_at": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "id": {
+                            "type": "number"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "owner_id": {
+                            "type": "number"
+                        },
+                        "path": {
+                            "type": "string"
+                        },
+                        "updated_at": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "archived": {
+                    "type": "boolean"
+                },
+                "avatar_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "Branch": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "commit": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "parents": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "tree": {
+                            "type": "string"
+                        },
+                        "message": {
+                            "type": "string"
+                        },
+                        "author": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "committer": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "authored_date": {
+                            "type": "string"
+                        },
+                        "committed_date": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "protected": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "Tag": {
+            "type": "object",
+            "required": [
+                "name",
+                "commit"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "commit": {
+                    "$ref": "#/definitions/Commit"
+                }
+            }
+        },
+        "MergeRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "iid": {
+                    "type": "integer"
+                },
+                "target_branch": {
+                    "type": "string"
+                },
+                "source_branch": {
+                    "type": "string"
+                },
+                "project_id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "upvotes": {
+                    "type": "integer"
+                },
+                "downvotes": {
+                    "type": "integer"
+                },
+                "author": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "username": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "created_at": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "assignee": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "username": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "created_at": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "source_project_id": {
+                    "type": "integer"
+                },
+                "target_project_id": {
+                    "type": "integer"
+                },
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "work_in_progress": {
+                    "type": "boolean"
+                },
+                "milestone": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "iid": {
+                            "type": "integer"
+                        },
+                        "project_id": {
+                            "type": "integer"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "created_at": {
+                            "type": "string"
+                        },
+                        "updated_at": {
+                            "type": "string"
+                        },
+                        "due_date": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "merge_when_build_succeeds": {
+                    "type": "boolean"
+                },
+                "merge_status": {
+                    "type": "string"
+                },
+                "subscribed": {
+                    "type": "boolean"
+                },
+                "user_notes_count": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Commit": {
+            "type": "object",
+            "required": [
+                "id",
+                "message"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Snippets": {
+            "type": "object",
+            "required": [
+                "id",
+                "title",
+                "file_name",
+                "updated_at",
+                "created_at",
+                "author",
+                "web_url"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "file_name": {
+                    "type": "string"
+                },
+                "author": {
+                    "type": "object",
+                    "required": [
+                        "id"
+                    ],
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "username": {
+                            "type": "string"
+                        },
+                        "id": {
+                            "type": "integer"
+                        },
+                        "avatar_url": {
+                            "type": "string"
+                        },
+                        "web_url": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "string"
+                },
+                "web_url": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
