@@ -41,6 +41,8 @@ These settings are set automatically when you start the extension. You can also 
     "shareCode.gitlab.authtoken": "..."
 }
 ```
+Pastebin authtoken can be obtained from https://pastebin.com/doc_api#9, this extension expects the `api_user_key` that can fetched by providing the developer key provided on the [api page](https://pastebin.com/doc_api#1).
+
 ## Reset Github token
 Sometimes it is necessary to delete a token. Go to this [page](https://github.com/settings/tokens) and delete the token named `VSCode Share Code`.
 
